@@ -11,7 +11,7 @@ Includes pre-configured themes, color management, and release key instructions.
 
 - [Installation](#-installation)
 - [⚠️ IMPORTANT: Android Release Key Setup](#-important-android-release-key-setup)
-- [Adding the Key to Your Project](#-adding-the-key-to-your-project)
+- [Adding the Key to Your Project](#adding-the-key-to-your-project)
 - [Update the App Name](#-update-the-app-name)
 - [Change the App Package Name](#-change-the-app-package-name)
 - [Adding Other Platforms](#-adding-other-platforms)
