@@ -128,6 +128,8 @@ Inside the `lib/utils` folder, you’ll find:
 - `colors.dart` — defines the main UI colors.
 - `custom_colors.dart` — defines additional/custom UI colors.
 
+---
+
 ## App Name, Version, Icon & Splash Screen Setup
 
 ---
