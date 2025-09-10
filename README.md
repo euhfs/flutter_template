@@ -132,8 +132,6 @@ Inside the `lib/utils` folder, you’ll find:
 
 ## App Name, Version, Icon & Splash Screen Setup
 
----
-
 ### Update app name and version in `pubspec.yaml`:
 
 ```yaml
