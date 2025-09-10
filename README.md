@@ -79,8 +79,13 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
    android/app/release.jks
    ```
 
-2. Update your `android/key.properties` file:  
+2. Create a file `key.properties` in `android/key.properties`  
    Replace `"PASSWORD"` with the **keystore password** you created above.
+
+   storeFile=release.jks
+   storePassword=PASSWORD
+   keyAlias=upload_key
+   keyPassword=PASSWORD
 
 ---
 
