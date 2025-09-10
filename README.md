@@ -7,7 +7,7 @@
 
 # **IMPORTANT**
 
-**For android you need to get a release key for your app to do that run the following command in a terminal**:
+### **For android you need to get a release key for your app to do that run the following command in a terminal**:
 
 - keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload_key
 
@@ -40,10 +40,24 @@ Re-enter new password:
 **And here just type "yes" and that should be it.**
 
 Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
-  [no]:  yes
+-  [no]:  yes
 
 ***
-To add other platforms run the command for each platform inside the root folder you want to add for your project:
+
+After you got the release.jks go to your project and inside android/app/release.jks just replace the release.jks and then go to android/key.properties and replace "PASSWORD" with the keystore password you just entered in that terminal command.
+
+### Also go to android/app/src/main/AndroidManifest.xml and replace the app label to your actual app name
+
+### And change the app package name from all of these:
+
+- android/app/build.gradle.kts
+- android/app/src/main/kotlin/com/example/flutter_template/MainActivity.kt
+
+**Inside build.gradle.kts find: namespace = "com.example.flutter_template"\napplicationId = "com.example.flutter_template"\n And change the package name to something like: "com.euhfs.my_flutter_app"**
+**And inside MainActivity.kt find package "com.example.flutter_template" and change that too**
+
+
+# To add other platforms run the command for each platform inside the root folder you want to add for your project:
 
 - flutter create . --platforms=windows
 - flutter create . --platforms=linux
