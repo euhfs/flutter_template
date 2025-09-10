@@ -22,18 +22,18 @@ Re-enter new password:
 
 **Here you can either complete with the actual requirements or just enter random things.**
 
-What is your first and last name?
--  []:  name
-What is the name of your organizational unit?
--  []:  name
-What is the name of your organization?
--  []:  name
-What is the name of your City or Locality?
--  []:  name
-What is the name of your State or Province?
--  []:  name
-What is the two-letter country code for this unit?
--  []:  name
+- What is your first and last name?
+  []:  name
+- What is the name of your organizational unit?
+  []:  name
+- What is the name of your organization?
+  []:  name
+- What is the name of your City or Locality?
+  []:  name
+- What is the name of your State or Province?
+  []:  name
+- What is the two-letter country code for this unit?
+  []:  name
 
 ***
 
