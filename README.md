@@ -9,13 +9,13 @@ Includes pre-configured themes, color management, and release key instructions.
 
 **Use the links below to navigate quickly through the README.**
 
-- [Installation](#-installation)
+- [Installation](#installation)
 - [⚠️ IMPORTANT: Android Release Key Setup](#-important-android-release-key-setup)
 - [Adding the Key to Your Project](#adding-the-key-to-your-project)
-- [Update the App Name](#-update-the-app-name)
-- [Change the App Package Name](#-change-the-app-package-name)
-- [Adding Other Platforms](#-adding-other-platforms)
-- [Predefined Dark/Light Themes & Custom Colors](#-predefined-darklight-themes--custom-colors)
+- [Update the App Name](#update-the-app-name)
+- [Change the App Package Name](#change-the-app-package-name)
+- [Adding Other Platforms](#adding-other-platforms)
+- [Predefined Dark/Light Themes & Custom Colors](#predefined-darklight-themes--custom-colors)
 - [App Name, Version, Icon & Splash Screen Setup](#app-name-version-icon--splash-screen-setup)
 
 ---
