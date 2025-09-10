@@ -40,7 +40,7 @@ Re-enter new password:
 **And here just type "yes" and that should be it.**
 
 Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
--    "[no]":  yes
+-    [no]:  yes
 
 ***
 
