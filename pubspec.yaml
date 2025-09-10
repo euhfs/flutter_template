@@ -1,7 +1,7 @@
-name: flutter_template
-description: "A Flutter Template"
+name: flutter_template   # TODO: Change this to your project name
+description: "A Flutter Template" # TODO: Change this to your project description
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+1  # TODO: update version here as needed
 
 environment:
   sdk: ^3.9.0
@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4  # Make sure you use the lastest version (this is for icons)
+  flutter_native_splash: ^2.4.6 # Make sure you use the lastest version (this is for splash screen)
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +19,51 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+
+# Make sure to edit as needed (for app icon)
+# I recommend https://icon.kitchen/ to generate an 512x512 PNG icon
+flutter_icons:
+  android: true
+  ios: true
+  windows:
+    generate: true
+    icon_size: 128
+  linux:
+    generate: true
+    icon_size: 128
+  macos:
+    generate: true
+  web:
+    generate: true
+  adaptive_icon_background: "#FFFFFF"   # Background color for adaptive icons on Android
+  image_path: "assets/app-icon/app_icon.png"     # Path to your app icon PNG file
+
+# after editing the above sections, run the following commands to apply changes:
+
+# flutter pub get
+# dart run flutter_launcher_icons
+
+# Make sure to edit as needed (for splash screen)
+flutter_native_splash:
+  color: "#FFFFFF"                     # Splash screen background color
+  icon_background_color: "#FFFFFF"    # Background color behind the splash icon
+  android_12:
+    color: "#FFFFFF"                   # Splash color for Android 12+
+    icon_background_color: "#FFFFFF"
+  ios: true                           # Enable splash screen on iOS
+  web: true                           # Enable splash screen on web
+
+# after editing the above sections, run the following commands to apply changes:
+
+# flutter pub get
+# dart run flutter_native_splash:create
+
+
+# to add custom font:
+
+# flutter:
+#   fonts:
+#     - family: CustomFont
+#       fonts:
+#         - asset: fonts/CustomFont-Regular.ttf

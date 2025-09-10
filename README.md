@@ -1,6 +1,7 @@
 # Flutter Project Template
 
-A simple Flutter template for quickly starting new projects (mainly for Android).
+A simple and opinionated Flutter project template to help you quickly get started, especially for Android development.  
+Includes pre-configured themes, color management, and release key instructions.
 
 ---
 
@@ -126,3 +127,74 @@ Inside the `lib/utils` folder, you’ll find:
 - `app_theme.dart` — contains the actual dark/light mode themes.
 - `colors.dart` — defines the main UI colors.
 - `custom_colors.dart` — defines additional/custom UI colors.
+
+## App Name, Version, Icon & Splash Screen Setup
+
+---
+
+### Update app name and version in `pubspec.yaml`:
+
+```yaml
+name: your_app_name        # Change to your app’s name (use lowercase_with_underscores)
+version: 1.0.0+1           # Update version and build number as needed
+```
+
+---
+
+### App Icon
+
+Configure flutter_icons in pubspec.yaml:
+
+```yaml
+# Make sure to edit as needed (for app icon)
+# I recommend https://icon.kitchen/ to generate an 512x512 PNG icon
+flutter_icons:
+  android: true
+  ios: true
+  windows:
+    generate: true
+    icon_size: 128
+  linux:
+    generate: true
+    icon_size: 128
+  macos:
+    generate: true
+  web:
+    generate: true
+  adaptive_icon_background: "#FFFFFF"   # Background color for adaptive icons on Android
+  image_path: "assets/app-icon/app_icon.png"     # Path to your app icon PNG file
+```
+
+after editing the above sections, run the following commands to apply changes run:
+
+```bash
+flutter pub get
+dart run flutter_launcher_icons
+```
+
+---
+
+### Splash Screen
+
+Configure flutter_native_splash in pubspec.yaml:
+
+```yaml
+# Make sure to edit as needed (for splash screen)
+flutter_native_splash:
+  color: "#FFFFFF"                     # Splash screen background color
+  icon_background_color: "#FFFFFF"    # Background color behind the splash icon
+  android_12:
+    color: "#FFFFFF"                   # Splash color for Android 12+
+    icon_background_color: "#FFFFFF"
+  ios: true                           # Enable splash screen on iOS
+  web: true                           # Enable splash screen on web
+```
+
+after editing the above sections, run the following commands to apply changes:
+
+```bash
+flutter pub get
+dart run flutter_native_splash:create
+```
+
+---
