@@ -3,6 +3,7 @@
 # Instalation
 
 - Download the .zip from the Code button
+- or by using the "Use this template" button
 
 # **IMPORTANT**
 
@@ -12,12 +13,37 @@
 
 **It will ask for some stuff for example**:
 
+**Here you need to create a unique and strong password. I recommend to create a 64 length password using ONLY a-z, A-Z, 0-9 so you don't have errors later.**
+
 ***
 Enter keystore password:
 
 Re-enter new password:
 ***
 
+**Here you can either complete with the actual requirements or just enter random things.**
+
+What is your first and last name?
+  []:  name
+What is the name of your organizational unit?
+  []:  name
+What is the name of your organization?
+  []:  name
+What is the name of your City or Locality?
+  []:  name
+What is the name of your State or Province?
+  []:  name
+What is the two-letter country code for this unit?
+  []:  name
+
+***
+
+**And here just type "yes" and that should be it.**
+
+Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
+  [no]:  yes
+
+***
 To add other platforms run the command for each platform inside the root folder you want to add for your project:
 
 - flutter create . --platforms=windows
