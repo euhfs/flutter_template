@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
+import 'custom_colors.dart';
 
 class AppTheme {
   static ThemeData get light {
     return ThemeData(
+      // Brightness
       brightness: Brightness.light,
+
+      // Background Color
       scaffoldBackgroundColor: AppColors.lightBackground,
+
+      // AppBar Theme
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.lightAppBar,
         foregroundColor: AppColors.lightPrimaryText,
       ),
+
+      // Icon theme
       iconTheme: const IconThemeData(color: AppColors.lightIconColor),
+
+      // Text Theme
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           color: AppColors.lightPrimaryText,
@@ -88,25 +98,43 @@ class AppTheme {
           fontWeight: FontWeight.w500,
         ),
       ),
+
+      // Text Selection Theme
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: Colors.blue,
         selectionColor: Colors.grey,
         selectionHandleColor: Colors.blue,
       ),
+
+      // Disable hover and splash effects
       hoverColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
+
+      // Custom Colors
+      extensions: <ThemeExtension<dynamic>>[
+        CustomColors.light, // for light theme
+      ],
     );
   }
 
   static ThemeData get dark {
     return ThemeData(
+      // Brightness
       brightness: Brightness.dark,
+
+      // Background Color
       scaffoldBackgroundColor: AppColors.darkBackground,
+
+      // AppBar Theme
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.darkAppBar,
         foregroundColor: AppColors.darkPrimaryText,
       ),
+
+      // Icon Theme
       iconTheme: const IconThemeData(color: AppColors.darkIconColor),
+
+      // Text Theme
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           color: AppColors.darkPrimaryText,
@@ -184,13 +212,20 @@ class AppTheme {
           fontWeight: FontWeight.w500,
         ),
       ),
+
+      // Text Selection Theme
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: Colors.blue,
         selectionColor: Colors.grey,
         selectionHandleColor: Colors.blue,
       ),
+
+      // Disable hover and splash effects
       hoverColor: Colors.transparent,
       splashFactory: NoSplash.splashFactory,
+
+      // Custom Colors
+      extensions: <ThemeExtension<dynamic>>[CustomColors.dark],
     );
   }
 }
