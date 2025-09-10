@@ -11,7 +11,6 @@
 
 - keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload_key
 
-**It will ask for some stuff for example**:
 
 **Here you need to create a unique and strong password. I recommend to create a 64 length password using ONLY a-z, A-Z, 0-9 so you don't have errors later.**
 
@@ -24,17 +23,17 @@ Re-enter new password:
 **Here you can either complete with the actual requirements or just enter random things.**
 
 What is your first and last name?
-  []:  name
+-  []:  name
 What is the name of your organizational unit?
-  []:  name
+-  []:  name
 What is the name of your organization?
-  []:  name
+-  []:  name
 What is the name of your City or Locality?
-  []:  name
+-  []:  name
 What is the name of your State or Province?
-  []:  name
+-  []:  name
 What is the two-letter country code for this unit?
-  []:  name
+-  []:  name
 
 ***
 
