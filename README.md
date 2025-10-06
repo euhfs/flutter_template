@@ -89,6 +89,47 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
    keyPassword=PASSWORD
    ```
 
+3. Set release key in `android/app/build.gradle.kts`
+
+   * Add at the top of the file:
+     ```kotlin
+     import java.util.Properties
+     import java.io.FileInputStream
+     ```
+
+   * Add after `plugins`:
+     ```kotlin
+     // Load keystore properties
+     val keystoreProperties = Properties()
+     val keystorePropertiesFile = rootProject.file("key.properties")
+     if (keystorePropertiesFile.exists()) {
+     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+     }
+     ```
+   * And finally replace `buildTypes` with:
+     ```kotlin
+     signingConfigs {
+        create("release") {
+           keyAlias = keystoreProperties["keyAlias"] as String
+           keyPassword = keystoreProperties["keyPassword"] as String
+           storeFile = keystoreProperties["storeFile"]?.let { file(it.toString()) }
+           storePassword = keystoreProperties["storePassword"] as String
+        }
+     }
+
+
+     buildTypes {
+        getByName("release") {
+           signingConfig = signingConfigs.getByName("release")
+           isMinifyEnabled = false
+           isShrinkResources = false
+        }
+     }
+     ```
+     # Important:
+     The key password and sensitive won't be commited to github if you want to since it's in `.gitignore`, but
+     I still recommend you to check `.gitignore` to make sure everything is right.
+
  ---
 
 ### Update the App Name
