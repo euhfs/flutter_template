@@ -89,6 +89,7 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
    keyPassword=PASSWORD
    ```
 
+**Skip this step if it's already done for you**
 3. Set release key in `android/app/build.gradle.kts`
 
    * Add at the top of the file:
