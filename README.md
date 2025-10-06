@@ -127,8 +127,7 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
      }
      ```
      # Important:
-     The key password and sensitive won't be commited to github if you want to since it's in `.gitignore`, but
-     I still recommend you to check `.gitignore` to make sure everything is right.
+     The keystore password and sensitive won't be commited to github if you want to since it's in `.gitignore`,      but I still recommend you to check `.gitignore` to make sure everything is right.
 
  ---
 
