@@ -22,7 +22,7 @@ flutter:
 
 
 # Make sure to edit as needed (for app icon)
-# I recommend https://icon.kitchen/ to generate an 512x512 PNG icon
+# I recommend https://easyappicon.com/ to generate an 512x512 PNG icon
 flutter_icons:
   android: true
   ios: true

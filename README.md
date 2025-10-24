@@ -10,7 +10,7 @@ Includes pre-configured themes, color management, and release key instructions.
 **Use the links below to navigate quickly through the README.**
 
 - [Installation](#installation)
-- [⚠️ IMPORTANT: Android Release Key Setup](#-important-android-release-key-setup)
+- [⚠️IMPORTANT: Android Release Key Setup](#-important-android-release-key-setup)
 - [Adding the Key to Your Project](#adding-the-key-to-your-project)
 - [Update the App Name](#update-the-app-name)
 - [Change the App Package Name](#change-the-app-package-name)
@@ -88,6 +88,47 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
    keyAlias=upload_key
    keyPassword=PASSWORD
    ```
+
+**Skip this step if it's already done for you**
+3. Set release key in `android/app/build.gradle.kts`
+
+   * Add at the top of the file:
+     ```kotlin
+     import java.util.Properties
+     import java.io.FileInputStream
+     ```
+
+   * Add after `plugins`:
+     ```kotlin
+     // Load keystore properties
+     val keystoreProperties = Properties()
+     val keystorePropertiesFile = rootProject.file("key.properties")
+     if (keystorePropertiesFile.exists()) {
+     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+     }
+     ```
+   * And finally replace `buildTypes` with:
+     ```kotlin
+     signingConfigs {
+        create("release") {
+           keyAlias = keystoreProperties["keyAlias"] as String
+           keyPassword = keystoreProperties["keyPassword"] as String
+           storeFile = keystoreProperties["storeFile"]?.let { file(it.toString()) }
+           storePassword = keystoreProperties["storePassword"] as String
+        }
+     }
+
+
+     buildTypes {
+        getByName("release") {
+           signingConfig = signingConfigs.getByName("release")
+           isMinifyEnabled = false
+           isShrinkResources = false
+        }
+     }
+     ```
+     # Important:
+     The keystore password and sensitive won't be commited to github if you want to since it's in `.gitignore`,      but I still recommend you to check `.gitignore` to make sure everything is right.
 
  ---
 
