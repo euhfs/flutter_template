@@ -76,7 +76,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color error; // For errors, alerts
   final Color info; // For informational messages or highlights
   final Color accent; // Accent color for buttons and highlights
-  final Color cardBackground; // Background color for cards or panels
+  final Color surface; // For cards etc.
+  final Color border; // For borders
+  final Color primary; // Primary Color
+  final Color secondary; // Secondary Color
+  final Color icon; // Icon Color
 
   // Constructor requiring all colors, ensures immutability and completeness
   const CustomColors({
@@ -85,7 +89,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.error,
     required this.info,
     required this.accent,
-    required this.cardBackground,
+    required this.surface,
+    required this.border,
+    required this.primary,
+    required this.secondary,
+    required this.icon,
   });
 
   // Predefined custom colors for light theme
@@ -93,9 +101,13 @@ class CustomColors extends ThemeExtension<CustomColors> {
     success: Color(0xFF4CAF50),
     warning: Color(0xFFFFA000),
     error: Color(0xFFD32F2F),
-    info: Color(0xFF1976D2),
+    info: Color.fromARGB(255, 112, 112, 112),
     accent: Color(0xFF00BCD4),
-    cardBackground: Color(0xFFF5F5F5),
+    surface: Color.fromARGB(255, 231, 231, 231),
+    border: Color.fromARGB(255, 187, 187, 187),
+    primary: Color.fromARGB(255, 86, 131, 255),
+    secondary: Color.fromARGB(255, 110, 120, 255),
+    icon: Color(0xFFD4D4D4),
   );
 
   // Predefined custom colors for dark theme
@@ -103,9 +115,13 @@ class CustomColors extends ThemeExtension<CustomColors> {
     success: Color(0xFF81C784),
     warning: Color(0xFFFFC947),
     error: Color(0xFFEF5350),
-    info: Color(0xFF64B5F6),
+    info: Color.fromARGB(255, 112, 112, 112),
     accent: Color(0xFF26C6DA),
-    cardBackground: Color(0xFF1E1E1E),
+    surface: Color.fromARGB(255, 34, 34, 34),
+    border: Color.fromARGB(255, 78, 78, 78),
+    primary: Color.fromARGB(255, 86, 131, 255),
+    secondary: Color.fromARGB(255, 110, 120, 255),
+    icon: Color(0xFFFFFFFF),
   );
 
   // Allows copying an instance with optional overrides for specific colors
@@ -116,7 +132,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? error,
     Color? info,
     Color? accent,
-    Color? cardBackground,
+    Color? surface,
+    Color? border,
+    Color? primary,
+    Color? secondary,
+    Color? icon,
   }) {
     return CustomColors(
       success: success ?? this.success,
@@ -124,7 +144,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
       error: error ?? this.error,
       info: info ?? this.info,
       accent: accent ?? this.accent,
-      cardBackground: cardBackground ?? this.cardBackground,
+      surface: surface ?? this.surface,
+      border: border ?? this.border,
+      primary: primary ?? this.primary,
+      secondary: secondary ?? this.secondary,
+      icon: icon ?? this.icon,
     );
   }
 
@@ -138,7 +162,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
       error: Color.lerp(error, other.error, t)!,
       info: Color.lerp(info, other.info, t)!,
       accent: Color.lerp(accent, other.accent, t)!,
-      cardBackground: Color.lerp(cardBackground, other.cardBackground, t)!,
+      surface: Color.lerp(surface, other.surface, t)!,
+      border: Color.lerp(border, other.border, t)!,
+      primary: Color.lerp(primary, other.primary, t)!,
+      secondary: Color.lerp(secondary, other.secondary, t)!,
+      icon: Color.lerp(icon, other.icon, t)!,
     );
   }
 }
