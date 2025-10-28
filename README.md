@@ -122,8 +122,8 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
      buildTypes {
         getByName("release") {
            signingConfig = signingConfigs.getByName("release")
-           isMinifyEnabled = false
-           isShrinkResources = false
+           isMinifyEnabled = true
+           isShrinkResources = true
         }
      }
      ```
