@@ -193,6 +193,16 @@ Inside the `lib/utils` folder, you’ll find:
 
 ---
 
+## Folder Structure
+
+Folder Structure will located in `/lib` and it will be by default for desktop and mobile *delete* desktop or mobile if you don't want one in your project.
+
+* First in the main function in `main.dart` it loads: `AppLayout()` which decides based on the width of the screen if it should build the *Mobile* or *Desktop* UI. If it's desktop it builds: `MainScreenDesktop()` and if it's mobile it builds: `MainScreenMobile()`.
+
+* Then `MainScreenDesktop()` and `MainScreenMobile()` can be your entry for your app. For example `MainScreenMobile()` can be where you can have your pages and have the app bar and bottom navigation bar for your app as it is already done for you.
+
+
+
 ## App Name, Version, Icon & Splash Screen Setup
 
 ### Update app name and version in `pubspec.yaml`:
