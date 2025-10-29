@@ -129,7 +129,7 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
      }
      ```
      # Important:
-     The keystore password and sensitive won't be commited to github if you want to since it's in `.gitignore`,      but I still recommend you to check `.gitignore` to make sure everything is right.
+     The keystore password and other sensitive data won't be committed to GitHub since they are in .gitignore, but I still recommend checking .gitignore to make sure everything is correct.
 
      # Proguard-rules
      Make sure to go to `android/app/proguard-rules.pro` and change this line: 
@@ -138,6 +138,8 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
      # Keep your own app code
      -keep class com.example.flutter_template.** { *; }
      ```
+
+     To your package name.
 
  ---
 
@@ -204,7 +206,7 @@ Inside the `lib/utils` folder, you’ll find:
 
 ## Folder Structure
 
-Folder Structure will located in `/lib` and it will be by default for desktop and mobile *delete* desktop or mobile if you don't want one in your project.
+The folder structure is located in `/lib` by default, supporting both desktop and mobile. Delete the desktop or mobile folders if you do not need them.
 
 * First in the main function in `main.dart` it loads: `AppLayout()` which decides based on the width of the screen if it should build the *Mobile* or *Desktop* UI. If it's desktop it builds: `MainScreenDesktop()` and if it's mobile it builds: `MainScreenMobile()`.
 
