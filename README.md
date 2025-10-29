@@ -212,7 +212,7 @@ The folder structure is located in `/lib` by default, supporting both desktop an
 
 * Then `MainScreenDesktop()` and `MainScreenMobile()` can be your entry for your app. For example `MainScreenMobile()` can be where you can have your pages and have the app bar and bottom navigation bar for your app as it is already done for you.
 
-
+---
 
 ## App Name, Version, Icon & Splash Screen Setup
 
