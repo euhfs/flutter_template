@@ -15,8 +15,14 @@ class CustomBottomNavBar extends StatelessWidget {
     return SafeArea(
       child: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_rounded)),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_rounded)),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_rounded),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_rounded),
+            label: 'Settings',
+          ),
         ],
         currentIndex: selectedIndex,
         onTap: onTabChange,

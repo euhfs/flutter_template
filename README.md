@@ -16,6 +16,7 @@ Includes pre-configured themes, color management, and release key instructions.
 - [Change the App Package Name](#change-the-app-package-name)
 - [Adding Other Platforms](#adding-other-platforms)
 - [Predefined Dark/Light Themes & Custom Colors](#predefined-darklight-themes--custom-colors)
+- [Folder Structure](#folder-structure)
 - [App Name, Version, Icon & Splash Screen Setup](#app-name-version-icon--splash-screen-setup)
 
 ---
