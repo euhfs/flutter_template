@@ -29,7 +29,7 @@ Includes pre-configured themes, color management, and release key instructions.
 
 ---
 
-## ⚠️ IMPORTANT: Android Release Key Setup
+## ⚠️ IMPORTANT Android Release Key Setup
 
 To release an Android app, you need a **release key**.
 
