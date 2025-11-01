@@ -23,7 +23,7 @@ flutter:
 
 # Make sure to edit as needed (for app icon)
 # I recommend https://easyappicon.com/ to generate an 512x512 PNG icon
-flutter_icons:
+flutter_launcher_icons:
   android: true
   ios: true
   windows:
@@ -42,7 +42,7 @@ flutter_icons:
 # after editing the above sections, run the following commands to apply changes:
 
 # flutter pub get
-# dart run flutter_launcher_icons
+# dart run flutter_launcher_icons:main
 
 # Make sure to edit as needed (for splash screen)
 flutter_native_splash:
