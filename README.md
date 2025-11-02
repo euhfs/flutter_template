@@ -27,7 +27,7 @@ Includes pre-configured themes, color management, and release key instructions.
    - Either download the `.zip` from the **Code** button,  
    - Or click the **"Use this template"** button.
 
-2. **Use [flutterapp.sh](scripts/flutterapp.sh)**
+2. **Use [flutterapp.sh](https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/flutterapp.sh)**
    - Download the script **Works on linux** (not sure if it works on macos)
    - Run the script and follow instructions.
    - **Please** make sure to still check instruction to make sure your project is set up well.
