@@ -14,8 +14,8 @@ Includes pre-configured themes, color management, and release key instructions.
 - [Adding the Key to Your Project](#adding-the-key-to-your-project)
 - [Update the App Name](#update-the-app-name)
 - [Change the App Package Name](#change-the-app-package-name)
-- [Adding Other Platforms](#adding-other-platforms)
-- [Predefined Dark/Light Themes & Custom Colors](#predefined-darklight-themes--custom-colors)
+- [Adding Other Platforms](-#adding-other-platforms)
+- [Predefined Dark/Light Themes & Custom Colors](-#predefined-darklight-themes--custom-colors)
 - [Folder Structure](#folder-structure)
 - [App Name, Version, Icon & Splash Screen Setup](#app-name-version-icon--splash-screen-setup)
 
@@ -27,6 +27,10 @@ Includes pre-configured themes, color management, and release key instructions.
    - Either download the `.zip` from the **Code** button,  
    - Or click the **"Use this template"** button.
 
+2. **Use [flutterapp.sh](scripts/flutterapp.sh)**
+   - Download the script **Works on linux** (not sure if it works on macos)
+   - Run the script and follow instructions.
+   - **Please** make sure to still check instruction to make sure your project is set up well.
 ---
 
 ## ⚠️ IMPORTANT Android Release Key Setup
