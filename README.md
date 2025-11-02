@@ -19,7 +19,7 @@ Includes pre-configured themes, color management, and release key instructions.
 - [Folder Structure](#folder-structure)
 - [App Name, Version, Icon & Splash Screen Setup](#app-name-version-icon--splash-screen-setup)
 
----
+
 
 ## 📦 Installation
 
@@ -31,7 +31,17 @@ Includes pre-configured themes, color management, and release key instructions.
    - Download the script **Works on linux** (not sure if it works on macos)
    - Run the script and follow instructions.
    - **Please** make sure to still check instruction to make sure your project is set up well.
----
+
+
+## Build
+
+* Clone this repository with `git clone https://github.com/euhfs/flutter_template`
+* Then run `cd flutter_template`
+* Clean and update files with `flutter pub upgrade && flutter clean && flutter pub get`
+* Open in vscode or any other IDE e.g `vscode .`
+
+Feel free to modify and customize to make it your own template as your own preference, this is mostly how I structure my apps but not everyone will like it.
+
 
 ## IMPORTANT Android Release Key Setup
 
