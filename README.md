@@ -28,8 +28,10 @@ Includes pre-configured themes, color management, and release key instructions.
    - Or click the **"Use this template"** button.
 
 2. **Use [flutterapp.sh](scripts/flutterapp.sh)**
+   - Click flutterapp.sh and find the button "Download raw file"
    - Download the script **Works on linux** (not sure if it works on macos)
-   - Run the script and follow instructions.
+   - Go to downloads folder or wherever it downloaded and run `chmod +x flutterapp.sh` this makes sure you can run it
+   - Run the script with `./flutterapp.sh` and follow instructions. (If default downloads folder doesn't work use `/home/YOURUSER/Downloads`)
    - **Please** make sure to still check instruction to make sure your project is set up well.
 
 
