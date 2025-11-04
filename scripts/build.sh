@@ -27,40 +27,7 @@
 
 
 # ============================================================
-# CHECK OS
-# ============================================================
-
-
-OS_TYPE="$(uname | tr '[:upper:]' '[:lower:]')"
-case "$OS_TYPE" in
-    linux*)
-        PLATFORM="linux"
-        echo "Running on Linux"
-        ;;
-    darwin*)
-        PLATFORM="macos"
-        echo "Running on macOS"
-        ;;
-    mingw*|msys*|cygwin*)
-        PLATFORM="windows"
-        echo "Running on Windows (via MinGW/Cygwin/MSYS)"
-        ;;
-    *)
-        echo "Unsupported OS: $OS_TYPE"
-        exit 1
-        ;;
-esac
-
-# ============================================================
-# CHECK IF FLUTTER IS INSTALLED
-# ============================================================
-
-
-command -v flutter >/dev/null 2>&1 || { echo >&2 "Flutter is required but not installed. Aborting."; exit 1; }
-
-
-# ============================================================
-# PATHS AND DIRECTORIES + VARIABLES
+# PATHS + DIRECTORIES + VARIABLES
 # ============================================================
 
 PROJECT_NAME=$(basename "$PWD") # I do not recommend changing this, leaving it as the root's directory name is the best idea to make sure everything works right and you have no errors.
@@ -92,6 +59,80 @@ WEBBUILD_DIR="$BUILD_DIR/web"
 # Create required directories
 mkdir -p "$OUTPUT_DIR/android" "$OUTPUT_DIR/linux" "$OUTPUT_DIR/web"
 mkdir -p "$RELEASE_DIR/android" "$RELEASE_DIR/linux" "$RELEASE_DIR/web"
+
+
+
+
+# ============================================================
+# CHECK OS
+# ============================================================
+
+
+OS_TYPE="$(uname | tr '[:upper:]' '[:lower:]')"
+case "$OS_TYPE" in
+    linux*)
+        PLATFORM="linux"
+        echo "Running on Linux"
+        ;;
+    darwin*)
+        PLATFORM="macos"
+        echo "Running on macOS"
+        ;;
+    mingw*|msys*|cygwin*)
+        PLATFORM="windows"
+        echo "Running on Windows (via MinGW/Cygwin/MSYS)"
+        ;;
+    *)
+        echo "Unsupported OS: $OS_TYPE"
+        exit 1
+        ;;
+esac
+
+
+# Build options for each platform
+case "$PLATFORM" in
+	linux) options=$(linux_build_platforms) ;;
+	windows) options=$(windows_build_platforms) ;;
+	macos) options=$(macos_build_platforms) ;;
+	*) echo "Unsupported platform detected"; exit 1 ;;	
+esac
+
+
+
+# ============================================================
+# CHECK IF FLUTTER IS INSTALLED
+# ============================================================
+
+
+command -v flutter >/dev/null 2>&1 || { echo >&2 "Flutter is required but not installed. Aborting."; exit 1; }
+
+
+# ============================================================
+# FUNCTIONS FOR SUPPORTED BUILD PLATFORMS ON EACH OS
+# ============================================================
+
+# Available platforms for linux
+linux_build_platforms() {
+
+echo "linux android web all"
+
+}
+
+
+# Available platforms for windows
+windows_build_platforms() {
+
+echo "windows android web all"
+
+}
+
+
+# Available platforms for macos
+macos_build_platforms() {
+
+echo "macos ios android web all"
+
+}
 
 
 # ============================================================
@@ -274,41 +315,98 @@ build_web() {
     echo "Web build completed."
 }
 
+
+build_windows() {
+echo
+}
+
+
+build_macos() {
+echo
+}
+
+build_ios() {
+echo
+}
+
 # ============================================================
 # MAIN EXECUTION
 # ============================================================
 
-echo "Enter platform to build (android, linux, web, or all):"
-read PLATFORM
 
-case "$PLATFORM" in
-    android)
-        build_android
-        ;;
-    linux)
-	if [[ "$OS_TYPE" == "linux" ]]; then
-            build_linux
-        else
-            echo
-            echo "Linux build is only supported on Linux OS. Skipping."
-	    echo
-        fi
-        ;;
-    web)
-        build_web
-        ;;
-    all)
-        build_android
-	if [[ "$OS_TYPE" == "linux" ]]; then
-            build_linux
-        else
-            echo
-            echo "Linux build is only supported on Linux OS. Skipping."
-	    echo
-        fi
-        build_web
-        ;;
-    *)
-        echo "Invalid option."
-        ;;
+# Prompt user to select a platform to build, validating input
+while true; do
+  # Show options with commas for readability
+  options_display=$(echo "$options" | tr ' ' ', ')
+  read -p "Select platform to build ($options_display): " USER_PLATFORM
+
+  valid_input=false
+  for opt in $options; do
+    if [[ "$opt" == "$USER_PLATFORM" ]]; then
+      valid_input=true
+      break
+    fi
+  done
+
+  if $valid_input; then
+    break
+  else
+    echo "Invalid input: $USER_PLATFORM. Please try again."
+  fi
+done
+
+# Dispatch build commands based on selected platform
+case "$USER_PLATFORM" in
+  android)
+    build_android
+    ;;
+  linux)
+    if [[ "$OS_TYPE" == "linux" ]]; then
+      build_linux
+    else
+      echo "Linux builds are only supported on Linux OS."
+    fi
+    ;;
+  windows)
+    if [[ "$OS_TYPE" == "windows" ]]; then
+      build_windows
+    else
+      echo "Windows builds are only supported on Windows OS."
+    fi
+    ;;
+  macos)
+    if [[ "$OS_TYPE" == "darwin" ]]; then
+      build_macos
+    else
+      echo "macOS builds are only supported on macOS."
+    fi
+    ;;
+  ios)
+    if [[ "$OS_TYPE" == "darwin" ]]; then
+      build_ios
+    else
+      echo "iOS builds are only supported on macOS."
+    fi
+    ;;
+  web)
+    build_web
+    ;;
+  all)
+    # Build all supported platforms except 'all' itself, respecting OS support
+    for platform in $options; do
+      [[ "$platform" != "all" ]] || continue
+      case "$platform" in
+        android) build_android ;;
+        linux) [[ "$OS_TYPE" == "linux" ]] && build_linux ;;
+        windows) [[ "$OS_TYPE" == "windows" ]] && build_windows ;;
+        macos) [[ "$OS_TYPE" == "darwin" ]] && build_macos ;;
+        ios) [[ "$OS_TYPE" == "darwin" ]] && build_ios ;;
+        web) build_web ;;
+      esac
+    done
+    ;;
+  *)
+    echo "Unexpected error: invalid platform selected."
+    exit 1
+    ;;
 esac
