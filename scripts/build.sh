@@ -89,16 +89,6 @@ case "$OS_TYPE" in
 esac
 
 
-# Build options for each platform
-case "$PLATFORM" in
-	linux) options=$(linux_build_platforms) ;;
-	windows) options=$(windows_build_platforms) ;;
-	macos) options=$(macos_build_platforms) ;;
-	*) echo "Unsupported platform detected"; exit 1 ;;	
-esac
-
-
-
 # ============================================================
 # CHECK IF FLUTTER IS INSTALLED
 # ============================================================
@@ -332,6 +322,15 @@ echo
 # ============================================================
 # MAIN EXECUTION
 # ============================================================
+
+
+# Build options for each platform
+case "$PLATFORM" in
+	linux) options=$(linux_build_platforms) ;;
+	windows) options=$(windows_build_platforms) ;;
+	macos) options=$(macos_build_platforms) ;;
+	*) echo "Unsupported platform detected"; exit 1 ;;	
+esac
 
 
 # Prompt user to select a platform to build, validating input
