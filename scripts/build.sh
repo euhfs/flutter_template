@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-# THIS WORKS ON LINUX ONLY FOR NOW
-# If you have a macos I'm not sure if it works, I don't have a mac but I will try to make it work
-# If you are on windows this is not supported yet, but if it will be supported you will most likely need to use mingw, msys, or cygwin (I don't want to make another script in powershell because it would be complicated and it's better to have everything in one place.
+# This is only supported and tested on linux and windows (via MinGW) only, it supports macos but it has not been tested since I don't have a mac. If anyone has a mac and wants to test this please feel free and contact me.
 
 # How to run:
 ## Run in terminal: scripts/build.sh
 ## If it doesn't work make sure it has the right permissions to run: chmod +x scripts/build.sh
-## First make sure you have the folder flutter inside (Documents/flutter) or edit the path, and add appimagetool-x86_64.AppImage install it from: https://github.com/AppImage/appimagetool/releases
+## First make sure you have the folder flutter inside Documents folder or edit the path, and add appimagetool-x86_64.AppImage install it from: https://github.com/AppImage/appimagetool/releases
 ## MAKE SURE YOU GET THE appimagetool-x86_64.AppImage and don't rename it, or change the appimage path
 
 
@@ -45,7 +43,7 @@ ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed.
 OUTPUT_DIR="$HOME/Documents/flutter/outputs/$PROJECT_NAME" # This is where all the files/folders will go when you build your project.
 RELEASE_DIR="$HOME/Documents/flutter/release/$PROJECT_NAME" # This is where all the final outputs will be located when everything is finished, these are the files/folders you can use to share your app.
 LINUX_BUILD_DIR="$HOME/Documents/flutter/build/$PROJECT_NAME" # This will be where your linux app will make the AppDir folder (used to prepare the final .AppImage output).
-WINDOWS_BUILD_DIR="$HOME/Documents/flutter/build/$PROJECT_NAME" # This will be where your windows app will be located and set up to package with inno setup.
+
 
 # Don't need to modify these since they are project wise.
 BUILD_DIR="$PWD/build"
@@ -78,9 +76,9 @@ case "$OS_TYPE" in
         PLATFORM="macos"
         echo "Running on macOS"
         ;;
-    mingw*|msys*|cygwin*)
+    mingw*)
         PLATFORM="windows"
-        echo "Running on Windows (via MinGW/Cygwin/MSYS)"
+        echo "Running on Windows (via MinGW)"
         ;;
     *)
         echo "Unsupported OS: $OS_TYPE"
@@ -164,7 +162,6 @@ copy_file() {
 
 
 build_android() {
-    echo "Building android applications..."
     $BUILD_APK
     $BUILDUNI_APK
 
@@ -179,7 +176,6 @@ build_android() {
 }
 
 build_linux() {
-    echo "Building linux application..."
     $BUILD_LINUX
 
     cp -r "$LINUXBUILD_DIR" "$OUTPUT_DIR/linux/"
@@ -300,35 +296,30 @@ EOF
 }
 
 build_web() {
-    echo "Building web application..."
     $BUILD_WEB
-    cp -r "$WEBBUILD_DIR/"* "$OUTPUT_DIR/web/"
+
+    cp -r "$WEBBUILD_DIR/"* "$OUTPUT_DIR/web/" 2>/dev/null || true
+
     mkdir -p "$RELEASE_DIR/web/"
     cp -r "$OUTPUT_DIR/web/"* "$RELEASE_DIR/web/"
+
     echo "Web build completed."
 }
 
 
 build_windows() {
-    echo "Building windows application..."
     $BUILD_WINDOWS
 
-    cp -r "$WINDOWSBUILD_DIR/"* "$OUTPUT_DIR/windows/"
-    mkdir -p "$WINDOWS_BUILD_DIR/windows"
-
-    # NOT SURE ABOUT THIS YET, CHECK
-    cp -r "$OUTPUT_DIR/windows/" "$WINDOWS_BUILD_DIR/windows/"
+    cp -r "$WINDOWSBUILD_DIR/"* "$OUTPUT_DIR/windows/" 2>/dev/null || true
 
 }
 
 
 build_macos() {
-    echo "Building macos application..."
     $BUILD_MACOS
 }
 
 build_ios() {
-    echo "Building ios application..."
     $BUILD_IOS
 }
 
@@ -387,14 +378,14 @@ case "$USER_PLATFORM" in
     fi
     ;;
   macos)
-    if [[ "$PLATFORM" == "darwin" ]]; then
+    if [[ "$PLATFORM" == "macos" ]]; then
       build_macos
     else
       echo "macOS builds are only supported on macOS."
     fi
     ;;
   ios)
-    if [[ "$PLATFORM" == "darwin" ]]; then
+    if [[ "$PLATFORM" == "macos" ]]; then
       build_ios
     else
       echo "iOS builds are only supported on macOS."
@@ -411,8 +402,8 @@ case "$USER_PLATFORM" in
         android) build_android ;;
         linux) [[ "$PLATFORM" == "linux" ]] && build_linux ;;
         windows) [[ "$PLATFORM" == "windows" ]] && build_windows ;;
-        macos) [[ "$PLATFORM" == "darwin" ]] && build_macos ;;
-        ios) [[ "$PLATFORM" == "darwin" ]] && build_ios ;;
+        macos) [[ "$PLATFORM" == "macos" ]] && build_macos ;;
+        ios) [[ "$PLATFORM" == "macos" ]] && build_ios ;;
         web) build_web ;;
       esac
     done

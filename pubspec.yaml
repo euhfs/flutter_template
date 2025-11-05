@@ -9,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_launcher_icons: ^0.14.4  # Make sure you use the latest version (this is for icons)
-  flutter_native_splash: ^2.4.6 # Make sure you use the latest version (this is for splash screen)
+  icons_launcher: ^3.0.3 # Make sure you use the latest version (app icons)
+  flutter_native_splash: ^2.2.16 # Make sure you use the latest version (this is for splash screen)
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -21,26 +21,31 @@ flutter:
 
 # Make sure to edit as needed (for app icon)
 # I recommend https://easyappicon.com/ to generate an 512x512 PNG icon
-flutter_launcher_icons:
-  android: true
-  ios: true
-  windows:
-    generate: true
-    icon_size: 128
-  linux:
-    generate: true
-    icon_size: 128
-  macos:
-    generate: true
-  web:
-    generate: true
-  adaptive_icon_background: "#FFFFFF"   # Background color for adaptive icons on Android
-  image_path: "assets/app-icon/app_icon.png"     # Path to your app icon PNG file
+icons_launcher:
+  image_path: "assets/app-icon/app_icon.png"
+  platforms:
+    android:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    ios:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    web:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+      favicon_path: "assets/app-icon/app_icon.png"
+    macos:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    windows:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+
 
 # after editing the above sections, run the following commands to apply changes:
 
-# flutter pub get
-# dart run flutter_launcher_icons:main
+# flutter pub get && dart run icons_launcher:create
+
 
 # Make sure to edit as needed (for splash screen)
 flutter_native_splash:
@@ -54,8 +59,7 @@ flutter_native_splash:
 
 # after editing the above sections, run the following commands to apply changes:
 
-# flutter pub get
-# dart run flutter_native_splash:create
+# flutter pub get && dart run flutter_launcher_icons
 
 
 # to add custom font:
