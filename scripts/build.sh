@@ -37,7 +37,6 @@ PROJECT_NAME=$(basename "$PWD") # I do not recommend changing this, leaving it a
 APP_NAME="Flutter Template" # This will be the name of your linux app.
 APP_DESCRIPTION="A flutter template useful for building apps easier." # This will be the description of your linux app.
 APP_TERMINAL="flutter-template" # This will be the command that you can use to run your app from terminal.
-
 APPIMAGETOOL="$HOME/Documents/flutter/appimagetool-x86_64.AppImage" # Change to your appimage tool path as needed.
 ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed.
 
@@ -46,21 +45,22 @@ ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed.
 OUTPUT_DIR="$HOME/Documents/flutter/outputs/$PROJECT_NAME" # This is where all the files/folders will go when you build your project.
 RELEASE_DIR="$HOME/Documents/flutter/release/$PROJECT_NAME" # This is where all the final outputs will be located when everything is finished, these are the files/folders you can use to share your app.
 LINUX_BUILD_DIR="$HOME/Documents/flutter/build/$PROJECT_NAME" # This will be where your linux app will make the AppDir folder (used to prepare the final .AppImage output).
-
+WINDOWS_BUILD_DIR="$HOME/Documents/flutter/build/$PROJECT_NAME" # This will be where your windows app will be located and set up to package with inno setup.
 
 # Don't need to modify these since they are project wise.
 BUILD_DIR="$PWD/build"
 APKBUILD_DIR="$BUILD_DIR/app/outputs/flutter-apk"
 LINUXBUILD_DIR="$BUILD_DIR/linux/x64/release/bundle"
 WEBBUILD_DIR="$BUILD_DIR/web"
+MACOSBUILD_DIR="$BUILD_DIR/macos/Build/Products/Release"
+IOSBUILD_DIR="$BUILD_DIR/ios/iphoneos"
+WINDOWSBUILD_DIR="$BUILD_DIR/windows/x64/runner/Release"
 
-# LINUX_BUILD_DIR and LINUXBUILD_DIR have confusing names but I couldn't think of any better name for it. LINUXBUILD_DIR is where the files from running flutter build linux will go and LINUX_BUILD_DIR is where the output AppDir directory will be located, I only recommend to change LINUX_BUILD_DIR as the other 2 above it (OUTPUT_DIR, RELEASE_DIR).
+# LINUX_BUILD_DIR and LINUXBUILD_DIR have confusing names but I couldn't think of any better name for it. LINUXBUILD_DIR is where the files from running flutter build linux will go and LINUX_BUILD_DIR is where the output AppDir directory will be located, I only recommend to change LINUX_BUILD_DIR as the other 2 above it (OUTPUT_DIR, RELEASE_DIR). SAME FOR WINDOWS
 
 # Create required directories
-mkdir -p "$OUTPUT_DIR/android" "$OUTPUT_DIR/linux" "$OUTPUT_DIR/web"
-mkdir -p "$RELEASE_DIR/android" "$RELEASE_DIR/linux" "$RELEASE_DIR/web"
-
-
+mkdir -p "$OUTPUT_DIR/android" "$OUTPUT_DIR/linux" "$OUTPUT_DIR/web" "$OUTPUT_DIR/macos" "$OUTPUT_DIR/ios" "$OUTPUT_DIR/windows"
+mkdir -p "$RELEASE_DIR/android" "$RELEASE_DIR/linux" "$RELEASE_DIR/web" "$RELEASE_DIR/macos" "$RELEASE_DIR/ios" "$RELEASE_DIR/windows"
 
 
 # ============================================================
@@ -135,6 +135,9 @@ BUILD_APK="flutter build apk --release --split-per-abi"
 BUILDUNI_APK="flutter build apk --release"
 BUILD_LINUX="flutter build linux --release"
 BUILD_WEB="flutter build web --wasm --release"
+BUILD_WINDOWS="flutter build windows --release"
+BUILD_MACOS="flutter build macos --release"
+BUILD_IOS="flutter build ios --release"
 
 
 # ============================================================
@@ -161,7 +164,7 @@ copy_file() {
 
 
 build_android() {
-    echo "Building Android..."
+    echo "Building android applications..."
     $BUILD_APK
     $BUILDUNI_APK
 
@@ -176,7 +179,7 @@ build_android() {
 }
 
 build_linux() {
-    echo "Building Linux..."
+    echo "Building linux application..."
     $BUILD_LINUX
 
     cp -r "$LINUXBUILD_DIR" "$OUTPUT_DIR/linux/"
@@ -297,7 +300,7 @@ EOF
 }
 
 build_web() {
-    echo "Building Web..."
+    echo "Building web application..."
     $BUILD_WEB
     cp -r "$WEBBUILD_DIR/"* "$OUTPUT_DIR/web/"
     mkdir -p "$RELEASE_DIR/web/"
@@ -307,16 +310,26 @@ build_web() {
 
 
 build_windows() {
-echo
+    echo "Building windows application..."
+    $BUILD_WINDOWS
+
+    cp -r "$WINDOWSBUILD_DIR/"* "$OUTPUT_DIR/windows/"
+    mkdir -p "$WINDOWS_BUILD_DIR/windows"
+
+    # NOT SURE ABOUT THIS YET, CHECK
+    cp -r "$OUTPUT_DIR/windows/" "$WINDOWS_BUILD_DIR/windows/"
+
 }
 
 
 build_macos() {
-echo
+    echo "Building macos application..."
+    $BUILD_MACOS
 }
 
 build_ios() {
-echo
+    echo "Building ios application..."
+    $BUILD_IOS
 }
 
 # ============================================================
@@ -360,28 +373,28 @@ case "$USER_PLATFORM" in
     build_android
     ;;
   linux)
-    if [[ "$OS_TYPE" == "linux" ]]; then
+    if [[ "$PLATFORM" == "linux" ]]; then
       build_linux
     else
       echo "Linux builds are only supported on Linux OS."
     fi
     ;;
   windows)
-    if [[ "$OS_TYPE" == "windows" ]]; then
+    if [[ "$PLATFORM" == "windows" ]]; then
       build_windows
     else
       echo "Windows builds are only supported on Windows OS."
     fi
     ;;
   macos)
-    if [[ "$OS_TYPE" == "darwin" ]]; then
+    if [[ "$PLATFORM" == "darwin" ]]; then
       build_macos
     else
       echo "macOS builds are only supported on macOS."
     fi
     ;;
   ios)
-    if [[ "$OS_TYPE" == "darwin" ]]; then
+    if [[ "$PLATFORM" == "darwin" ]]; then
       build_ios
     else
       echo "iOS builds are only supported on macOS."
@@ -396,10 +409,10 @@ case "$USER_PLATFORM" in
       [[ "$platform" != "all" ]] || continue
       case "$platform" in
         android) build_android ;;
-        linux) [[ "$OS_TYPE" == "linux" ]] && build_linux ;;
-        windows) [[ "$OS_TYPE" == "windows" ]] && build_windows ;;
-        macos) [[ "$OS_TYPE" == "darwin" ]] && build_macos ;;
-        ios) [[ "$OS_TYPE" == "darwin" ]] && build_ios ;;
+        linux) [[ "$PLATFORM" == "linux" ]] && build_linux ;;
+        windows) [[ "$PLATFORM" == "windows" ]] && build_windows ;;
+        macos) [[ "$PLATFORM" == "darwin" ]] && build_macos ;;
+        ios) [[ "$PLATFORM" == "darwin" ]] && build_ios ;;
         web) build_web ;;
       esac
     done
