@@ -33,7 +33,7 @@ NC='\033[0m' # No color
 REPO_URL="https://github.com/euhfs/flutter_template"
 DEFAULT_DIR="$HOME/Downloads"
 
-# Check if git, flutter, and keytool are installed
+# Check if git, and flutter are installed
 command -v git >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} git is not installed"; exit 1; }
 command -v flutter >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} flutter is not installed"; exit 1; }
 
