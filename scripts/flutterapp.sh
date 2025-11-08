@@ -44,7 +44,7 @@ get_started() {
 while true; do
 
 	# Enter name for the folder
-	read -p "Enter the name for the main folder (NO SPACES! use -, or _): " MAIN_FOLDER
+	read -r -p "Enter the name for the main folder (NO SPACES! use -, or _): " MAIN_FOLDER
 
 	# don't allow white spaces
 	if [[ "$MAIN_FOLDER" =~ ^[a-zA-Z0-9_-]+$ ]]; then
@@ -55,7 +55,7 @@ while true; do
 done
 
 # Ask for output location
-read -p "Enter the location where it should be installed (default: Downloads Folder): " OUTPUT_LOCATION
+read -r -p "Enter the location where it should be installed (default: Downloads Folder): " OUTPUT_LOCATION
 
 # If the user pressed Enter without input, set default
 if [ -z "$OUTPUT_LOCATION" ]; then
@@ -116,7 +116,7 @@ make_keystore() {
 # ask for name/dev name for keystore
 while true; do
 	echo
-	read -p "Enter your company/dev name to be used in the keystore: " keystore_name
+	read -r -p "Enter your company/dev name to be used in the keystore: " keystore_name
 	if [[ "$keystore_name" =~ ^[a-zA-Z0-9_-]{3,30}$ ]]; then
 		break
 	else
@@ -128,7 +128,7 @@ done
 # ask for password for keystore
 while true; do
 	echo
-	read -s -p "Enter the password to be used for your keystore (Recommended: 64 characters, letters and numbers only, no symbols): " keystore_pass
+	read -r -s -p "Enter the password to be used for your keystore (Recommended: 64 characters, letters and numbers only, no symbols): " keystore_pass
 	if [[ "$keystore_pass" =~ ^[a-zA-Z0-9]{32,128}$ ]]; then
 		break
 	else
@@ -165,7 +165,7 @@ echo
 echo "Now you need to enter the package name (Application ID) for your app. It MUST be UNIQUE!"
 echo "Example:  com.yourcompany.appname"
 echo
-read -p "Enter package name: " package_name
+read -r -p "Enter package name: " package_name
 
 # edit the package name inside proguard
 replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/proguard-rules.pro"
@@ -223,7 +223,7 @@ edit_app_name() {
 
 # Ask for app display name
 echo
-read -p "Enter display name for your app: " app_name
+read -r -p "Enter display name for your app: " app_name
 
 # Android
 replace_in_file 'flutter_template' "$app_name" "$FINAL_LOCATION/android/app/src/main/AndroidManifest.xml"
@@ -248,7 +248,7 @@ echo -e "${GREEN}[INFO]:${NC} Edited iOS app name to $app_name"
 
 # macOS
 replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate.RunnerTests' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
-replace_in_file 'PRODUCT_NAME = "$(TARGET_NAME)";' "PRODUCT_NAME = \"$app_name\";" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
+replace_in_file "PRODUCT_NAME = $(TARGET_NAME);" "PRODUCT_NAME = \"$app_name\";" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
 echo -e "${GREEN}[INFO]:${NC} Edited macOS app name to $app_name"
 
 }
@@ -285,7 +285,7 @@ echo -e "${YELLOW}[WARNING]:${NC} Skipping this avoids android setup entirely"
 
 # ask to skip this step or not
 echo
-read -p "Do you want to set up the app for Android? (y/n): " choice
+read -r -p "Do you want to set up the app for Android? (y/n): " choice
 
 
 # skip or not based on input
