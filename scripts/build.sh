@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# This is only supported and tested on linux and windows (via MinGW) only, it supports macos but it has not been tested since I don't have a mac. If anyone has a mac and wants to test this please feel free and contact me.
+# This is only supported and tested on linux and windows (via MinGW) only, it supports macos but it has not been tested since I don't have a mac.
+# If anyone has a mac and wants to test this please feel free and contact me.
 
 # How to run:
 ## Run in terminal: scripts/build.sh
@@ -29,14 +30,20 @@
 # ============================================================
 
 PROJECT_NAME=$(basename "$PWD") # I do not recommend changing this, leaving it as the root's directory name is the best idea to make sure everything works right and you have no errors.
+APP_VERSION="1.0.0" # TODO change
 
-
-# Variables (ONLY NEEDED FOR LINUX BUILD, LEAVE AS IT IS IF YOU DON'T BUILD FOR LINUX)
+# Variables for linux (LEAVE AS IT IS IF YOU DON'T BUILD FOR LINUX)
+APPIMAGETOOL="$HOME/Documents/flutter/appimagetool-x86_64.AppImage" # Change to your appimage tool path as needed.
 APP_NAME="Flutter Template" # This will be the name of your linux app.
 APP_DESCRIPTION="A flutter template useful for building apps easier." # This will be the description of your linux app.
 APP_TERMINAL="flutter-template" # This will be the command that you can use to run your app from terminal.
-APPIMAGETOOL="$HOME/Documents/flutter/appimagetool-x86_64.AppImage" # Change to your appimage tool path as needed.
-ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed.
+ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed. (used for app shortcut logo)
+
+# Variables for windows
+INNO_SETUP="C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+APP_PUBLISHER="euhfs"
+APP_URL="https://github.com/euhfs/flutter_template"
+APP_ID="{{5193F39C-8C38-41CF-93C2-07F401FB0530}}"
 
 
 # Modify these with the location where you wish the directories to be located.
@@ -322,14 +329,60 @@ build_windows() {
 
     cp -r "$WINDOWSBUILD_DIR/"* "$OUTPUT_DIR/windows/" 2>/dev/null || true
 
+    # Create temporary .iss file
+    TMP_ISS=$(mktemp /tmp/generated-iss-XXXXXX.iss) || exit 1
+
+    cat > "$TMP_ISS" <<EOF
+[Setup]
+AppId=${APP_ID}
+AppName=${APP_NAME}
+AppVersion=${APP_VERSION}
+AppPublisher=${APP_PUBLISHER}
+AppPublisherURL=${APP_URL}
+AppSupportURL=${APP_URL}
+AppUpdatesURL=${APP_URL}
+DefaultDirName={autopf}\\${PROJECT_NAME}
+UninstallDisplayIcon={app}\\${PROJECT_NAME}.exe
+ArchitecturesAllowed=x64compatible
+ArchitecturesInstallIn64BitMode=x64compatible
+DisableProgramGroupPage=yes
+OutputDir=${RELEASE_DIR}/windows
+OutputBaseFilename=${APP_NAME}
+SolidCompression=yes
+WizardStyle=modern
+
+[Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
+[Files]
+Source: "${OUTPUT_DIR}\windows\\${PROJECT_NAME}.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "${OUTPUT_DIR}\windows\\${PROJECT_NAME}.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "${OUTPUT_DIR}\windows\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[Icons]
+Name: "{autoprograms}\\${APP_NAME}"; Filename: "{app}\\${PROJECT_NAME}.exe"
+Name: "{autodesktop}\\${APP_NAME}"; Filename: "{app}\\${PROJECT_NAME}.exe"; Tasks: desktopicon
+
+[Run]
+Filename: "{app}\\${PROJECT_NAME}.exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+EOF
+
+    "$INNO_SETUP" "$TMP_ISS"
+
+    rm "$TMP_ISS"   
 }
 
 
 build_macos() {
+    echo "This is not tested, and will only build and move the ouputs to the outputs folder."
     $BUILD_MACOS
 }
 
 build_ios() {
+    echo "This is not tested, and will only build and move the ouputs to the outputs folder."
     $BUILD_IOS
 }
 
