@@ -367,7 +367,7 @@ Name: "{autoprograms}\\${APP_NAME}"; Filename: "{app}\\${PROJECT_NAME}.exe"
 Name: "{autodesktop}\\${APP_NAME}"; Filename: "{app}\\${PROJECT_NAME}.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\\${PROJECT_NAME}.exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\\${PROJECT_NAME}.exe"; Description: "Launch ${APP_NAME}"; Flags: nowait postinstall skipifsilent
 EOF
 
     "$INNO_SETUP" "$TMP_ISS"
