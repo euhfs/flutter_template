@@ -30,11 +30,11 @@
 # ============================================================
 
 PROJECT_NAME=$(basename "$PWD") # I do not recommend changing this, leaving it as the root's directory name is the best idea to make sure everything works right and you have no errors.
+APP_NAME="Flutter Template" # This will be the name of your linux/windows app.
 APP_VERSION="1.0.0" # TODO change
 
 # Variables for linux (LEAVE AS IT IS IF YOU DON'T BUILD FOR LINUX)
 APPIMAGETOOL="$HOME/Documents/flutter/appimagetool-x86_64.AppImage" # Change to your appimage tool path as needed.
-APP_NAME="Flutter Template" # This will be the name of your linux app.
 APP_DESCRIPTION="A flutter template useful for building apps easier." # This will be the description of your linux app.
 APP_TERMINAL="flutter-template" # This will be the command that you can use to run your app from terminal.
 ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed. (used for app shortcut logo)
@@ -353,7 +353,7 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 OutputDir=${WIN_RELEASE_DIR}\\windows
-OutputBaseFilename=${PROJECT_NAME}.exe
+OutputBaseFilename=${PROJECT_NAME}
 SolidCompression=yes
 WizardStyle=modern
 
