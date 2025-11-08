@@ -3,7 +3,7 @@
 
 # This script clones a Flutter template repository, sets up the project folder,
 # optionally generates an Android keystore, updates package names, app names,
-# and prepares the project for Linux, Windows, Web, and Android.
+# and prepares the project for Linux, Windows, Web, Android, iOS, and macOS.
 
 
 # Works on: Linux, macOS, Windows (Git Bash / WSL)
@@ -241,6 +241,14 @@ echo -e "${GREEN}[INFO]:${NC} Edited linux app name to $app_name"
 # Web
 replace_in_file 'flutter_template' "$app_name" "$FINAL_LOCATION/web/index.html"
 echo -e "${GREEN}[INFO]:${NC} Edited web app name to $app_name"
+
+# iOS
+replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/ios/Runner.xcodeproj/project.pbxproj"
+replace_in_file 'Flutter Template' "$app_name" "$FINAL_LOCATION/ios/Runner/Info.plist"
+
+# macOS
+replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate.RunnerTests' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
+replace_in_file 'PRODUCT_NAME = "$(TARGET_NAME)";' "PRODUCT_NAME = \"$app_name\";" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
 
 }
 
