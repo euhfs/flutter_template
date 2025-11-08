@@ -244,16 +244,18 @@ echo -e "${GREEN}[INFO]:${NC} Edited web app name to $app_name"
 # iOS
 replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/ios/Runner.xcodeproj/project.pbxproj"
 replace_in_file 'Flutter Template' "$app_name" "$FINAL_LOCATION/ios/Runner/Info.plist"
+echo -e "${GREEN}[INFO]:${NC} Edited iOS app name to $app_name"
 
 # macOS
 replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate.RunnerTests' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
 replace_in_file 'PRODUCT_NAME = "$(TARGET_NAME)";' "PRODUCT_NAME = \"$app_name\";" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
+echo -e "${GREEN}[INFO]:${NC} Edited macOS app name to $app_name"
 
 }
 
 edit_pubspec() {
 # change name to folder name as flutter does by default
-sed -i '' "s|flutter_template|$MAIN_FOLDER|g" "$FINAL_LOCATION/pubspec.yaml"
+replace_in_file 'flutter_template' "$MAIN_FOLDER" "$FINAL_LOCATION/pubspec.yaml"
 echo
 echo -e "${GREEN}[INFO]:${NC} Changed pubspec.yaml 'name:' as your project's folder name"
 
