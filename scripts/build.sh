@@ -353,7 +353,7 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 OutputDir=${WIN_RELEASE_DIR}\\windows
-OutputBaseFilename=${APP_NAME}
+OutputBaseFilename=${PROJECT_NAME}.exe
 SolidCompression=yes
 WizardStyle=modern
 
