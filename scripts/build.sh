@@ -1,28 +1,72 @@
 #!/usr/bin/env bash
 
-# This is only supported and tested on linux and windows (via MinGW) only, it supports macos but it has not been tested since I don't have a mac.
-# If anyone has a mac and wants to test this please feel free and contact me.
 
-# How to run:
-## Run in terminal: scripts/build.sh
-## If it doesn't work make sure it has the right permissions to run: chmod +x scripts/build.sh
-## First make sure you have the folder flutter inside Documents folder or edit the path, and add appimagetool-x86_64.AppImage install it from: https://github.com/AppImage/appimagetool/releases
-## MAKE SURE YOU GET THE appimagetool-x86_64.AppImage and don't rename it, or change the appimage path
+# ============================================================
+# Flutter Multi-Platform Build Script
+# ============================================================
 
 
-# Important for linux:
-## Edit these variables below in "PATHS AND DIRECTORIES + VARIABLES"
-
-## APP_NAME is just the display name of your app
-## APP_DESCRIPTION is the description under the display name of the app
-## APP_TERMINAL is the command you run from terminal to open the app (useful to have)
+# Supported OS:
+#   - Linux
+#   - Windows (via MinGW)
+#   - macOS (untested, experimental)
 
 
-# What this does:
-## It gets the app in in this repository and creates an folder inside Documents named flutter (Or your path in case you changed it)
-## Inside that folder you will find 3 folders but the only one you need is RELEASE where you will find the project name and inside 3 other folders (if you ran "all" in the script), named: android, web, and linux. Linux is packaged as an appimage, you can zip the linux folder and anyone can install it and use it like this: extract folder (if you made it .zip) cd into it, and run the installer script.
-## For android you just have the apk's for each architecture or an universal apk which works on all android devices (you can change the script if you only want an .aab or universal apk as you like.
-## And same for the web, it has everything it needs, if you want to make the app as an website you can search for tutorials on youtube on how to use it with github pages or integrate it inside a website as demo.
+# Variables that NEED to be modified (Section "PATHS + DIRECTORIES + VARIABLES"):
+# 1. APP_VERSION="1.0.0+1"
+#    - The version of your app (used in Flutter and some shortcuts).
+#
+# 2. APP_NAME="Flutter Template"
+#    - The display name of your app.
+#    - Used for shortcuts and desktop installers.
+#    - Note: For Android and iOS, you must also modify the appropriate project files.
+#
+# 3. APP_DESCRIPTION="A Flutter template..."
+#    - The description of your app.
+#    - Appears in shortcuts and installers.
+#
+# 4. APP_TERMINAL="flutter-template"
+#    - The command you can use in the terminal to run your app (Linux/macOS only).
+#
+# FOR WINDOWS:
+# 5. APP_PUBLISHER="euhfs"
+#    - Change this to your publisher name.
+#    - Used for metadata in installers and shortcuts.
+#
+# 6. APP_URL="https://github.com/euhfs/flutter_template"
+#    - URL for your app or repository.
+#    - Optional, but recommended for reference in shortcuts or about dialogs.
+#
+# 7. APP_ID="{{5193F39C-8C38-41CF-93C2-07F401FB0530}}"
+#    - The unique identifier for your app.
+#    - Must be changed to something other than what is set by default.
+#    - Needs to be the same APP_ID for the same app, but different for different apps.
+#    - To generate a new APP_ID:
+#       * Open inno setup
+#	* Go to "tools" tab or press "CTRL + SHIFT + G"
+#	* Replace the APP_ID with what was generated
+#	* NOTE: only replace the numbers and make sure the final string has {{ID}} with 2 brackets at the start and end
+
+# Instructions:
+#   1. Make sure the script has execute permissions:
+#        chmod +x scripts/build.sh
+#   2. Run the script:
+#        ./scripts/build.sh
+#   3. Download necessary tools:
+#        Linux: AppImageTool
+#        Windows: Inno Setup
+#        macOS: Xcode
+
+
+# What this script does:
+# - Builds your Flutter project for selected platforms.
+# - Creates an output folder in Documents/flutter/outputs/$PROJECT_NAME.
+# - Creates a release folder with ready-to-share builds:
+#     - Linux: AppImage (can be zipped & installed via installer script)
+#     - Android: APKs (split per ABI + universal)
+#     - Windows: Installer via Inno Setup
+#     - Web: Fully built static files
+#     - macOS/iOS: .app bundles (untested)
 
 
 # ============================================================
@@ -30,21 +74,24 @@
 # ============================================================
 
 PROJECT_NAME=$(basename "$PWD") # I do not recommend changing this, leaving it as the root's directory name is the best idea to make sure everything works right and you have no errors.
-APP_NAME="Flutter Template" # This will be the name of your linux/windows app.
-APP_VERSION="1.0.0" # TODO change
+ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed. (used for the icon of the app shortcut on linux/macOS)
+
+APP_VERSION="1.0.0+1" # This will be the displayed version of your app "+1" is the build number.
+APP_NAME="Flutter Template" # This will be the name of your linux/windows/macOS.
+APP_DESCRIPTION="A flutter template useful for building apps easier." # This will be the description of your linux/macOS.
+APP_TERMINAL="flutter-template" # This will be the command that you can use to run your app from terminal on linux/macOS.
+
 
 # Variables for linux (LEAVE AS IT IS IF YOU DON'T BUILD FOR LINUX)
 APPIMAGETOOL="$HOME/Documents/flutter/appimagetool-x86_64.AppImage" # Change to your appimage tool path as needed.
-APP_DESCRIPTION="A flutter template useful for building apps easier." # This will be the description of your linux app.
-APP_TERMINAL="flutter-template" # This will be the command that you can use to run your app from terminal.
-ICON_PATH="./assets/app-icon/app_icon.png" # Change to your icon path as needed. (used for app shortcut logo)
 
 # Variables for windows
-INNO_SETUP="C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
-APP_PUBLISHER="euhfs"
-APP_URL="https://github.com/euhfs/flutter_template"
-APP_ID="{{5193F39C-8C38-41CF-93C2-07F401FB0530}}"
+INNO_SETUP="C:\Program Files (x86)\Inno Setup 6\ISCC.exe" # Change to your inno setup executable path as needed.
 
+APP_PUBLISHER="euhfs" # Change this to your publisher name
+APP_URL="https://github.com/euhfs/flutter_template" # Website of your app or github repo (leave empty if you don't have one)
+APP_ID="{{5193F39C-8C38-41CF-93C2-07F401FB0530}}" # Unique identifier for your app (keep as a GUID)
+# GUID = It’s meant to be unique across all apps, so no two apps should share the same one.
 
 # Modify these with the location where you wish the directories to be located.
 OUTPUT_DIR="$HOME/Documents/flutter/outputs/$PROJECT_NAME" # This is where all the files/folders will go when you build your project.
@@ -66,6 +113,9 @@ WINDOWSBUILD_DIR="$BUILD_DIR/windows/x64/runner/Release"
 # Create required directories
 mkdir -p "$OUTPUT_DIR/android" "$OUTPUT_DIR/linux" "$OUTPUT_DIR/web" "$OUTPUT_DIR/macos" "$OUTPUT_DIR/ios" "$OUTPUT_DIR/windows"
 mkdir -p "$RELEASE_DIR/android" "$RELEASE_DIR/linux" "$RELEASE_DIR/web" "$RELEASE_DIR/macos" "$RELEASE_DIR/ios" "$RELEASE_DIR/windows"
+
+# Change version inside pubspec
+sed -i'' "s/^version: .*/version: $APP_VERSION/" pubspec.yaml
 
 
 # ============================================================
@@ -186,9 +236,8 @@ build_linux() {
     $BUILD_LINUX
 
     # Prepare directories
-    cp -r "$LINUXBUILD_DIR" "$OUTPUT_DIR/linux/"
     mkdir -p "$LINUX_BUILD_DIR/AppDir"
-    cp -r "$OUTPUT_DIR/linux/bundle/"* "$LINUX_BUILD_DIR/AppDir/" 2>/dev/null || true
+    cp -r "$LINUXBUILD_DIR/"* "$LINUX_BUILD_DIR/AppDir/"
 
     # Copy icon
     if [ ! -f "$ICON_PATH" ]; then
@@ -222,6 +271,12 @@ EOF
 
     # Make release dir
     mkdir -p "$RELEASE_DIR/linux/"
+
+    # Check appimagetool
+    if [ ! -x "$APPIMAGETOOL" ]; then
+    	echo "AppImage tool not found or not executable at $APPIMAGETOOL"
+    	exit 1
+    fi
 
     # Build AppImage
     ARCH="x86_64" "$APPIMAGETOOL" "$LINUX_BUILD_DIR/AppDir" "$RELEASE_DIR/linux/$PROJECT_NAME.AppImage"
@@ -382,13 +437,162 @@ EOF
 
 
 build_macos() {
-    echo "This is not tested, and will only build and move the ouputs to the outputs folder."
+    echo "This is not tested, and will only build and move the outputs to the outputs folder."
     $BUILD_MACOS
+
+    # Ensure directories exist
+    mkdir -p "$OUTPUT_DIR/macos"
+    mkdir -p "$RELEASE_DIR/macos"
+
+    # Copy .app bundle
+    if [ -d "$MACOSBUILD_DIR/$APP_NAME.app" ]; then
+        cp -r "$MACOSBUILD_DIR/$APP_NAME.app" "$OUTPUT_DIR/macos/"
+        cp -r "$MACOSBUILD_DIR/$APP_NAME.app" "$RELEASE_DIR/macos/"
+        echo "Copied $APP_NAME.app to output and release directories."
+    else
+        echo "macOS build folder not found at $MACOSBUILD_DIR. Make sure 'flutter build macos' completed successfully."
+    fi
+
+    # Create a zip for distribution
+    cd "$RELEASE_DIR/macos" || exit 1
+    zip -r "$PROJECT_NAME-macos.zip" "$APP_NAME.app"
+    cd - >/dev/null || exit
+
+    # ------------------------------
+    # Create installer script
+    # ------------------------------
+    cat <<EOF > "$RELEASE_DIR/macos/install.sh"
+$(sed 's/^/    /' <<'SCRIPT_EOF'
+#!/usr/bin/env bash
+
+APP_NAME="$APP_NAME"
+PROJECT_NAME="$PROJECT_NAME"
+APP_DESCRIPTION="$APP_DESCRIPTION"
+APP_TERMINAL="$APP_TERMINAL"
+
+APP_DIR="$HOME/Applications/$APP_NAME.app"
+DESKTOP_FILE="$HOME/.local/share/applications/$PROJECT_NAME.desktop"
+ICON_FILE="$HOME/.local/share/icons/$PROJECT_NAME.png"
+SYMLINK="$HOME/.local/bin/$APP_TERMINAL"
+SOURCE_APP="$RELEASE_DIR/macos/$APP_NAME.app"
+ICON_SOURCE="$ICON_PATH"
+
+echo "Installing $APP_NAME..."
+
+mkdir -p "$(dirname "$DESKTOP_FILE")"
+mkdir -p "$(dirname "$ICON_FILE")"
+mkdir -p "$(dirname "$SYMLINK")"
+
+if [ -d "$SOURCE_APP" ]; then
+  cp -R "$SOURCE_APP" "$APP_DIR"
+else
+  echo "App bundle not found at $SOURCE_APP"
+  exit 1
+fi
+
+if [ -f "$ICON_SOURCE" ]; then
+  cp "$ICON_SOURCE" "$ICON_FILE"
+else
+  echo "Icon not found, skipping."
+fi
+
+cat > "$DESKTOP_FILE" <<DESKTOP_EOF
+[Desktop Entry]
+Type=Application
+Name=$APP_NAME
+Exec=open "$APP_DIR"
+Icon=$ICON_FILE
+Comment=$APP_DESCRIPTION
+Categories=Utility;
+Terminal=false
+DESKTOP_EOF
+
+ln -sf "$APP_DIR/Contents/MacOS/$PROJECT_NAME" "$SYMLINK"
+
+if command -v update-desktop-database >/dev/null 2>&1; then
+  update-desktop-database "$HOME/.local/share/applications"
+fi
+
+echo "Installation complete!"
+echo "Run '$APP_TERMINAL' to start your app."
+echo "To uninstall: cd $HOME && ./Documents/flutter/release/$PROJECT_NAME/macos/uninstaller.sh"
+SCRIPT_EOF
+)
+EOF
+    chmod +x "$RELEASE_DIR/macos/install.sh"
+
+    # ------------------------------
+    # Create uninstaller script
+    # ------------------------------
+    cat <<EOF > "$RELEASE_DIR/macos/uninstaller.sh"
+#!/usr/bin/env bash
+
+APP_NAME="$APP_NAME"
+PROJECT_NAME="$PROJECT_NAME"
+APP_DIR="$HOME/Applications/$APP_NAME.app"
+DESKTOP_FILE="$HOME/.local/share/applications/$PROJECT_NAME.desktop"
+ICON_FILE="$HOME/.local/share/icons/$PROJECT_NAME.png"
+SYMLINK="$HOME/.local/bin/$APP_TERMINAL"
+
+echo "Uninstalling $APP_NAME..."
+
+[ -d "\$APP_DIR" ] && rm -rf "\$APP_DIR"
+[ -f "\$DESKTOP_FILE" ] && rm "\$DESKTOP_FILE"
+[ -f "\$ICON_FILE" ] && rm "\$ICON_FILE"
+[ -L "\$SYMLINK" ] && rm "\$SYMLINK"
+
+if command -v update-desktop-database >/dev/null 2>&1; then
+  update-desktop-database "\$HOME/.local/share/applications"
+fi
+
+echo "\$APP_NAME uninstalled successfully."
+EOF
+    chmod +x "$RELEASE_DIR/macos/uninstaller.sh"
+
+    echo "macOS build completed successfully."
 }
 
 build_ios() {
-    echo "This is not tested, and will only build and move the ouputs to the outputs folder."
+    echo "This is not tested, and will only build and move the outputs to the outputs folder."
     $BUILD_IOS
+
+    # Ensure directories exist
+    mkdir -p "$OUTPUT_DIR/ios"
+    mkdir -p "$RELEASE_DIR/ios"
+
+    IOS_APP_PATH="$IOSBUILD_DIR/Runner.app"
+    IOS_IPA_PATH="$IOSBUILD_DIR/Runner.ipa"
+
+    # Copy .app bundle (device build)
+    if [ -d "$IOS_APP_PATH" ]; then
+        cp -r "$IOS_APP_PATH" "$OUTPUT_DIR/ios/"
+        cp -r "$IOS_APP_PATH" "$RELEASE_DIR/ios/"
+        echo "Copied Runner.app to output and release directories."
+    else
+        echo "No Runner.app found in $IOSBUILD_DIR (you may need a physical device connected)."
+    fi
+
+    # Copy .ipa file (if exists)
+    if [ -f "$IOS_IPA_PATH" ]; then
+        cp "$IOS_IPA_PATH" "$OUTPUT_DIR/ios/"
+        cp "$IOS_IPA_PATH" "$RELEASE_DIR/ios/"
+        echo "Copied Runner.ipa to output and release directories."
+    else
+        echo "No Runner.ipa found — you can create one via 'flutter build ipa' if needed."
+    fi
+
+    # Create a zip archive for easy distribution
+    cd "$RELEASE_DIR/ios" || exit 1
+    if [ -d "Runner.app" ]; then
+        zip -r "$PROJECT_NAME-ios-app.zip" "Runner.app"
+    fi
+    if [ -f "Runner.ipa" ]; then
+        zip -r "$PROJECT_NAME-ios-ipa.zip" "Runner.ipa"
+    fi
+    cd - >/dev/null || exit
+
+    echo "iOS build completed successfully."
+    echo "Output: $RELEASE_DIR/ios"
 }
 
 # ============================================================
@@ -408,8 +612,8 @@ esac
 # Prompt user to select a platform to build, validating input
 while true; do
   # Show options with commas for readability
-  options_display=$(echo "$options" | sed 's/ /, /g')
-  read -p "Select platform to build ($options_display): " USER_PLATFORM
+  options_display="${options// /, }"
+  read -r -p "Select platform to build ($options_display): " USER_PLATFORM
 
   valid_input=false
   for opt in $options; do

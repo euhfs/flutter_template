@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# THIS WORKS ON LINUX ONLY
-# not sure about macos
 
 # How to run:
 ## Run in terminal: scripts/commit.sh

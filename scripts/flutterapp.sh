@@ -1,6 +1,25 @@
 #!/usr/bin/env bash
 
 
+# This script clones a Flutter template repository, sets up the project folder,
+# optionally generates an Android keystore, updates package names, app names,
+# and prepares the project for Linux, Windows, Web, and Android.
+
+
+# Works on: Linux, macOS, Windows (Git Bash / WSL)
+
+
+# Requirements:
+#   - git
+#   - flutter
+#   - Java JDK (for keytool)
+#   - Perl (for in-place replacements)
+
+
+# Usage:
+#   ./flutter_setup.sh
+
+
 # Colors
 
 RED='\033[0;31m' # Error color
@@ -14,8 +33,13 @@ NC='\033[0m' # No color
 REPO_URL="https://github.com/euhfs/flutter_template"
 DEFAULT_DIR="$HOME/Downloads"
 
-# get started function
+# Check if git, flutter, and keytool are installed
+command -v git >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} git is not installed"; exit 1; }
+command -v flutter >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} flutter is not installed"; exit 1; }
+command -v keytool >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} keytool is not installed (required for Android)"; exit 1; }
 
+
+# Get started function
 get_started() {
 
 while true; do
@@ -42,7 +66,7 @@ fi
 # check if it's a valid path
 if [[ ! -d "$OUTPUT_LOCATION" ]]; then
 	echo
-	echo -e "${RED}[ERROR]:${NC} Output location does not exist: $OUTPUT_LOCATION${NC}"
+	echo -e "${RED}[ERROR]:${NC} Output location does not exist: $OUTPUT_LOCATION"
 	exit 1
 fi
 
@@ -77,6 +101,9 @@ echo -e "${GREEN}[INFO]:${NC} Repository cloned successfully into $FINAL_LOCATIO
 cd "$FINAL_LOCATION" || exit 1
 
 # run flutter commands
+echo
+echo -e "${GREEN}[INFO]:${NC} Running flutter commands inside the project..."
+
 flutter pub upgrade || { echo -e "${RED}[ERROR]:${NC} flutter pub upgrade failed"; exit 1; }
 flutter clean || { echo -e "${RED}[ERROR]:${NC} flutter clean failed"; exit 1; }
 flutter pub get || { echo -e "${RED}[ERROR]:${NC} flutter pub get failed"; exit 1; }
@@ -95,14 +122,14 @@ while true; do
 		break
 	else
 		echo
-		echo -e "${RED}[ERROR]:${NC} Name must be 3-30 characters including: letters, digits, underscores, or hypens only"
+		echo -e "${RED}[ERROR]:${NC} Name must be 3-30 characters including: letters, digits, underscores, or hyphens only"
 	fi
 done
 
 # ask for password for keystore
 while true; do
 	echo
-	read -s -p "Enter the password to be used for your keystore (DON'T LOSE THIS AND MAKE IT (64 characters recommended)  WITH NO SYMBOLS!): " keystore_pass
+	read -s -p "Enter the password to be used for your keystore (Recommended: 64 characters, letters and numbers only, no symbols): " keystore_pass
 	if [[ "$keystore_pass" =~ ^[a-zA-Z0-9]{32,128}$ ]]; then
 		break
 	else
@@ -120,10 +147,10 @@ keytool -genkeypair \
     -alias "$keystore_name" \
     -keyalg RSA \
     -keysize 2048 \
-    -validity 10000\
+    -validity 10000 \
     -dname "CN=, OU=, O=, L=, ST=, C="
 
-# generate key.properties aswell
+# generate key.properties as well
 echo -e "storeFile=release.jks\nstorePassword=$keystore_pass\nkeyAlias=upload_key\nkeyPassword=$keystore_pass" > "$FINAL_LOCATION/android/key.properties"
 
 echo
@@ -218,10 +245,21 @@ echo -e "${GREEN}[INFO]:${NC} Edited web app name to $app_name"
 }
 
 edit_pubspec() {
-# change name to folder name as flutte does by default
-sed -i "s|flutter_template|$MAIN_FOLDER|g" "$FINAL_LOCATION/pubspec.yaml"
+# change name to folder name as flutter does by default
+sed -i '' "s|flutter_template|$MAIN_FOLDER|g" "$FINAL_LOCATION/pubspec.yaml"
 echo
 echo -e "${GREEN}[INFO]:${NC} Changed pubspec.yaml 'name:' as your project's folder name"
+
+}
+
+
+edit_cmake() {
+
+# Edit binary name
+replace_in_file 'flutter_template' "$MAIN_FOLDER" "$FINAL_LOCATION/linux/CMakeLists.txt"
+
+# Edit app id (package_name)
+replace_in_file 'com.example.flutter_template' "$package_name" "$FINAL_LOCATION/linux/CMakeLists.txt"
 
 }
 
@@ -259,3 +297,13 @@ edit_app_name
 
 # run edit pubspec to change 'name:' to folder name
 edit_pubspec
+
+# run edit cmake to change some stuff for linux
+edit_cmake
+
+# Finish messages
+echo
+echo -e "${GREEN}[DONE]:${NC} Project setup complete!"
+echo "Location: $FINAL_LOCATION"
+echo "App Name: $app_name"
+[[ -n "$package_name" ]] && echo "Package Name: $package_name"

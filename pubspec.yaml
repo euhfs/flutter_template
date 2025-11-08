@@ -1,7 +1,7 @@
 name: flutter_template   # TODO: Change this to your project name
 description: "A Flutter Template" # TODO: Change this to your project description
 publish_to: 'none'
-version: 1.0.0+1  # TODO: update version here as needed
+version: 1.0.0+1
 
 environment:
   sdk: ^3.9.0
@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   icons_launcher: ^3.0.3 # Make sure you use the latest version (app icons)
-  flutter_native_splash: ^2.2.16 # Make sure you use the latest version (this is for splash screen)
+  flutter_native_splash: ^2.4.7 # Make sure you use the latest version (this is for splash screen)
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -59,7 +59,7 @@ flutter_native_splash:
 
 # after editing the above sections, run the following commands to apply changes:
 
-# flutter pub get && dart run flutter_launcher_icons
+# flutter pub get && dart run flutter_native_splash:create
 
 
 # To add custom font:
