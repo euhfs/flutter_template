@@ -333,6 +333,10 @@ build_windows() {
     # Create temporary .iss file
     TMP_ISS=$(mktemp /tmp/generated-iss-XXXXXX.iss) || exit 1
 
+    # Convert paths to make them work
+    WIN_RELEASE_DIR=$(cygpath -w "$RELEASE_DIR")
+    WIN_OUTPUT_DIR=$(cygpath -w "$OUTPUT_DIR")
+
     cat > "$TMP_ISS" <<EOF
 [Setup]
 AppId=${APP_ID}
@@ -347,7 +351,7 @@ UninstallDisplayIcon={app}\\${PROJECT_NAME}.exe
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
-OutputDir=${RELEASE_DIR}/windows
+OutputDir=${WIN_RELEASE_DIR}\\windows
 OutputBaseFilename=${APP_NAME}
 SolidCompression=yes
 WizardStyle=modern
@@ -359,9 +363,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "${OUTPUT_DIR}\windows\\${PROJECT_NAME}.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "${OUTPUT_DIR}\windows\\${PROJECT_NAME}.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "${OUTPUT_DIR}\windows\data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "${WIN_OUTPUT_DIR}\\windows\\${PROJECT_NAME}.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "${WIN_OUTPUT_DIR}\\windows\\${PROJECT_NAME}.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "${WIN_OUTPUT_DIR}\\windows\\data\\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\\${APP_NAME}"; Filename: "{app}\\${PROJECT_NAME}.exe"
