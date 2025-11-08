@@ -36,7 +36,6 @@ DEFAULT_DIR="$HOME/Downloads"
 # Check if git, flutter, and keytool are installed
 command -v git >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} git is not installed"; exit 1; }
 command -v flutter >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} flutter is not installed"; exit 1; }
-command -v keytool >/dev/null 2>&1 || { echo -e "${RED}[ERROR]:${NC} keytool is not installed (required for Android)"; exit 1; }
 
 
 # Get started function
