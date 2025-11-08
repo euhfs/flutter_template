@@ -1,4 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+
+# Colors
+
+RED='\033[0;31m' # Error color
+GREEN='\033[0;32m' # Success color
+YELLOW='\033[1;33m' # Warning color
+NC='\033[0m' # No color
+
+
+# Variables
+
+REPO_URL="https://github.com/euhfs/flutter_template"
+DEFAULT_DIR="$HOME/Downloads"
 
 # get started function
 
@@ -13,48 +27,59 @@ while true; do
 	if [[ "$MAIN_FOLDER" =~ ^[a-zA-Z0-9_-]+$ ]]; then
 		break
 	else
-		echo "[ERROR]: Folder name contains invalid characters"
+		echo -e "${RED}[ERROR]:${NC} Folder name contains invalid characters"
 	fi
 done
 
 # Ask for output location
 read -p "Enter the location where it should be installed (default: Downloads Folder): " OUTPUT_LOCATION
 
+# If the user pressed Enter without input, set default
+if [ -z "$OUTPUT_LOCATION" ]; then
+	OUTPUT_LOCATION="$DEFAULT_DIR"
+fi
+
 # check if it's a valid path
 if [[ ! -d "$OUTPUT_LOCATION" ]]; then
 	echo
-	echo "[ERROR]: Output location does not exist"
+	echo -e "${RED}[ERROR]:${NC} Output location does not exist: $OUTPUT_LOCATION${NC}"
 	exit 1
 fi
 
-# If the user pressed Enter without input, set default
-if [ -z "$OUTPUT_LOCATION" ]; then
-    OUTPUT_LOCATION="$HOME/Downloads"
+# full path to where repo will be cloned
+FINAL_LOCATION="$OUTPUT_LOCATION/$MAIN_FOLDER"
+
+# check if the target directory already exists
+if [[ -d "$FINAL_LOCATION" ]]; then
+	# make sure it's an github repository and not a random directory
+	if git -C "$FINAL_LOCATION" rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+		# remove the current directory
+		echo
+		echo -e "${GREEN}[INFO]:${NC} Existing Git repo found. Deleting for fresh clone..."
+		rm -rf "$FINAL_LOCATION" || { echo -e "${RED}[ERROR]:${NC} Failed to delete existing Git repository"; exit 1; }
+	else
+		echo
+		echo -e "${RED}[ERROR]:${NC} Directory exists but it is not a git repo, please choose another name"
+		exit 1
+	fi
 fi
 
 
-# Clone template repo
-git clone "https://github.com/euhfs/flutter_template" "$OUTPUT_LOCATION/$MAIN_FOLDER"
+# if the directory doesn't already exist, it's safe to clone
+git clone "$REPO_URL" "$FINAL_LOCATION" || { echo -e "${RED}[ERROR]:${NC} Failed cloning"; exit 1; }
+echo
+echo -e "${GREEN}[INFO]:${NC} Repository cloned successfully into $FINAL_LOCATION"
 
-# abort if cloning failed
-if [[ $? -ne 0 ]]; then
-	echo
-	echo "[ERROR]: Failed to clone repo"
-	exit 1
-fi
 
 # Go into the root folder and run some flutter commands to make sure everything is clean and up to date
-
-# get final location
-FINAL_LOCATION="$OUTPUT_LOCATION/$MAIN_FOLDER"
 
 # cd into final location
 cd "$FINAL_LOCATION" || exit 1
 
 # run flutter commands
-flutter pub upgrade || { echo "[ERROR]: flutter pub upgrade failed"; exit 1; }
-flutter clean || { echo "[ERROR]: flutter clean failed"; exit 1; }
-flutter pub get || { echo "[ERROR]: flutter pub get failed"; exit 1; }
+flutter pub upgrade || { echo -e "${RED}[ERROR]:${NC} flutter pub upgrade failed"; exit 1; }
+flutter clean || { echo -e "${RED}[ERROR]:${NC} flutter clean failed"; exit 1; }
+flutter pub get || { echo -e "${RED}[ERROR]:${NC} flutter pub get failed"; exit 1; }
 
 }
 
@@ -63,17 +88,28 @@ flutter pub get || { echo "[ERROR]: flutter pub get failed"; exit 1; }
 make_keystore() {
 
 # ask for name/dev name for keystore
-echo
-read -p "Enter your company/dev name to be used in the keystore: " keystore_name
+while true; do
+	echo
+	read -p "Enter your company/dev name to be used in the keystore: " keystore_name
+	if [[ "$keystore_name" =~ ^[a-zA-Z0-9_-]{3,30}$ ]]; then
+		break
+	else
+		echo
+		echo -e "${RED}[ERROR]:${NC} Name must be 3-30 characters including: letters, digits, underscores, or hypens only"
+	fi
+done
 
 # ask for password for keystore
-read -s -p "Enter the password to be used for your keystore (DON'T LOSE THIS AND MAKE IT (64 characters recommended)  WITH NO SYMBOLS!): " keystore_pass
-
-if [[ ! "$keystore_pass" =~ ^[a-zA-Z0-9]{32}$ ]]; then
+while true; do
 	echo
-	echo "[ERROR]: Password must be at least 32 characters, with no symbols included"
-	exit 1
-fi
+	read -s -p "Enter the password to be used for your keystore (DON'T LOSE THIS AND MAKE IT (64 characters recommended)  WITH NO SYMBOLS!): " keystore_pass
+	if [[ "$keystore_pass" =~ ^[a-zA-Z0-9]{32,128}$ ]]; then
+		break
+	else
+		echo
+		echo -e "${RED}[ERROR]:${NC} Password must be at least 32 characters, with no symbols included"
+	fi
+done
 
 # generate the keystore
 keytool -genkeypair \
@@ -91,7 +127,7 @@ keytool -genkeypair \
 echo -e "storeFile=release.jks\nstorePassword=$keystore_pass\nkeyAlias=upload_key\nkeyPassword=$keystore_pass" > "$FINAL_LOCATION/android/key.properties"
 
 echo
-echo "[INFO]: keystore and key.properties step finished with no errors!"
+echo -e "${GREEN}[INFO]:${NC} keystore and key.properties step finished with no errors!"
 }
 
 
@@ -106,10 +142,10 @@ echo
 read -p "Enter package name: " package_name
 
 # edit the package name inside proguard
-sed -i "s|com.example.flutter_template|$package_name|g" "$FINAL_LOCATION/android/app/proguard-rules.pro"
+replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/proguard-rules.pro"
 
 echo
-echo "[INFO]: Updated proguard-rules.pro with the package name provided."
+echo -e "${GREEN}[INFO]:${NC} Updated proguard-rules.pro with the package name provided."
 
 }
 
@@ -117,10 +153,11 @@ echo "[INFO]: Updated proguard-rules.pro with the package name provided."
 update_package_name() {
 
 # change package name in build.gradle.kts
-sed -i "s|com.example.flutter_template|$package_name|g" "$FINAL_LOCATION/android/app/build.gradle.kts"
+replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/build.gradle.kts"
 
 # change package name in MainActivity.kt before changing folder name based on package name
-sed -i "s|com.example.flutter_template|$package_name|g" "$FINAL_LOCATION/android/app/src/main/kotlin/com/example/flutter_template/MainActivity.kt"
+replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/src/main/kotlin/com/example/flutter_template/MainActivity.kt"
+
 
 # Split package name to rename the folders inside kotlin as needed
 IFS='.' read -r -a package_parts <<< "$package_name"
@@ -132,7 +169,6 @@ for part in "${package_parts[@]}"; do
 	new_dir="$new_dir/$part"
 done
 
-
 # make the new directory
 mkdir -p "$new_dir"
 
@@ -141,11 +177,19 @@ if [ -d "$old_dir" ]; then
 	mv "$old_dir"/* "$new_dir"/
 	rmdir "$old_dir"
 else
-	echo "[ERROR]: Old directory does not exist"
+	echo -e "${RED}[ERROR]:${NC} Old directory does not exist"
 	exit 1
 fi
 
-echo "[INFO]: Changed all package names inside this project to $package_name"
+echo -e "${GREEN}[INFO]:${NC} Changed all package names inside this project to $package_name"
+}
+
+# helper function to edit app names
+replace_in_file() {
+  local search="$1"
+  local replace="$2"
+  local file="$3"
+  perl -pi -e "s|\Q$search\E|$replace|g" "$file"
 }
 
 # function to edit app name
@@ -155,33 +199,31 @@ edit_app_name() {
 echo
 read -p "Enter display name for your app: " app_name
 
-# edit app name on android
-sed -i "s|flutter_template|$app_name|g" "$FINAL_LOCATION/android/app/src/main/AndroidManifest.xml"
-echo "[INFO]: Edited android app name to $app_name"
+# Android
+replace_in_file 'flutter_template' "$app_name" "$FINAL_LOCATION/android/app/src/main/AndroidManifest.xml"
+echo -e "${GREEN}[INFO]:${NC} Edited android app name to $app_name"
 
-# edit app name on windows
-sed -i "s|flutter_template|$app_name|g" "$FINAL_LOCATION/windows/runner/main.cpp"
-echo "[INFO]: Edited windows app name to $app_name"
+# Windows
+replace_in_file 'flutter_template' "$app_name" "$FINAL_LOCATION/windows/runner/main.cpp"
+echo -e "${GREEN}[INFO]:${NC} Edited windows app name to $app_name"
 
-# edit app name on linux
-sed -i "s|flutter_template|$app_name|g" "$FINAL_LOCATION/linux/runner/my_application.cc"
-echo "[INFO]: Edited linux app name to $app_name"
+# Linux
+replace_in_file 'flutter_template' "$app_name" "$FINAL_LOCATION/linux/runner/my_application.cc"
+echo -e "${GREEN}[INFO]:${NC} Edited linux app name to $app_name"
 
-# edit app name on web
-sed -i "s|flutter_template|$app_name|g" "$FINAL_LOCATION/web/index.html"
-echo "[INFO]: Edited web app name to $app_name"
+# Web
+replace_in_file 'flutter_template' "$app_name" "$FINAL_LOCATION/web/index.html"
+echo -e "${GREEN}[INFO]:${NC} Edited web app name to $app_name"
 
 }
 
 edit_pubspec() {
-
 # change name to folder name as flutte does by default
 sed -i "s|flutter_template|$MAIN_FOLDER|g" "$FINAL_LOCATION/pubspec.yaml"
 echo
-echo "[INFO]: Changed pubspec.yaml 'name:' as your project's folder name"
+echo -e "${GREEN}[INFO]:${NC} Changed pubspec.yaml 'name:' as your project's folder name"
 
 }
-
 
 
 # run get started step
@@ -190,20 +232,20 @@ get_started
 
 # Generate keystore and key.properties and move inside final location in proper spaces
 echo
-echo "Downloaded flutter template into $FINAL_LOCATION, now you need to skip or continue with the following step:"
-echo "If you wish to use the app for android you need a keystore, if you don't skip this step."
-echo "[Important]: Skipping this, avoids android setup entirely"
+echo -e "${GREEN}[INFO]:${NC} Downloaded flutter template into $FINAL_LOCATION"
+echo "If you plan to release the app on Android, a keystore is required. If not, you may skip this step."
+echo -e "${YELLOW}[WARNING]:${NC} Skipping this avoids android setup entirely"
 
 # ask to skip this step or not
 echo
-read -p "Do you want to skip this step? (y/n): " choice
+read -p "Do you want to set up the app for Android? (y/n): " choice
 
 
 # skip or not based on input
 
 case $choice in
-	[yY]* ) echo "Skipping step..." ;;
-	[nN]* ) echo "Entering keystore setup..."
+	[nN]* ) echo -e "${GREEN}[INFO]:${NC} Skipping step..." ;;
+	[yY]* ) echo -e "${GREEN}[INFO]:${NC} Entering keystore setup..."
 		make_keystore
 		edit_proguard
 		update_package_name

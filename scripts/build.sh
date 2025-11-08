@@ -178,32 +178,30 @@ build_android() {
 build_linux() {
     $BUILD_LINUX
 
+    # Prepare directories
     cp -r "$LINUXBUILD_DIR" "$OUTPUT_DIR/linux/"
     mkdir -p "$LINUX_BUILD_DIR/AppDir"
+    cp -r "$OUTPUT_DIR/linux/bundle/"* "$LINUX_BUILD_DIR/AppDir/" 2>/dev/null || true
 
-    cp -r "$OUTPUT_DIR/linux/bundle/"* "$LINUX_BUILD_DIR/AppDir/"
-    
-    # Copy icon from fixed path without using APP_ICON_LOCATION variable
+    # Copy icon
     if [ ! -f "$ICON_PATH" ]; then
         echo "Error: Icon file not found at $ICON_PATH"
         exit 1
     fi
-
     cp "$ICON_PATH" "$LINUX_BUILD_DIR/AppDir/.DirIcon.png"
 
-    chmod +x "$LINUX_BUILD_DIR/AppDir/$PROJECT_NAME"
+    # Make binary executable
+    chmod +x "$LINUX_BUILD_DIR/AppDir/$PROJECT_NAME" 2>/dev/null || true
 
-    # Create AppRun file inside AppDir
+    # Create AppRun file
     cat <<EOF > "$LINUX_BUILD_DIR/AppDir/AppRun"
 #!/usr/bin/env bash
 HERE="\$(dirname "\$(readlink -f "\${0}")")"
 exec "\$HERE/$PROJECT_NAME" "\$@"
 EOF
-    
-    # Give the file permission to run.
     chmod +x "$LINUX_BUILD_DIR/AppDir/AppRun"
 
-    # Create the .desktop file.
+    # Create desktop entry
     cat <<EOF > "$LINUX_BUILD_DIR/AppDir/$PROJECT_NAME.desktop"
 [Desktop Entry]
 Type=Application
@@ -214,85 +212,97 @@ Comment=$APP_DESCRIPTION
 Categories=Utility;
 Terminal=false
 EOF
-    # Make sure the linux release directory exists, if not create it.
+
+    # Make release dir
     mkdir -p "$RELEASE_DIR/linux/"
 
-    # Run the command to build the .AppImage and move it to the release directory.
+    # Build AppImage
     ARCH="x86_64" "$APPIMAGETOOL" "$LINUX_BUILD_DIR/AppDir" "$RELEASE_DIR/linux/$PROJECT_NAME.AppImage"
-
-    # Give it permission to run.
     chmod +x "$RELEASE_DIR/linux/$PROJECT_NAME.AppImage"
     cp "$LINUX_BUILD_DIR/AppDir/.DirIcon.png" "$RELEASE_DIR/linux/$PROJECT_NAME.png"
 
-    # ONLY FOR LINUX
-    # Create uninstall script. (Really useful so users can uninstall your app using the script.
+    # ------------------------------
+    # Create uninstaller script
+    # ------------------------------
     cat <<EOF > "$RELEASE_DIR/linux/uninstaller.sh"
 #!/usr/bin/env bash
+
 APP_NAME="$APP_NAME"
-APP_DIR="/opt/$PROJECT_NAME"
-APPIMAGE_NAME="$PROJECT_NAME.AppImage"
-DESKTOP_FILE="\$HOME/.local/share/applications/$PROJECT_NAME.desktop"
-ICON_FILE="\$HOME/.local/share/icons/$PROJECT_NAME.png"
-SYMLINK="/usr/local/bin/$PROJECT_NAME"
+PROJECT_NAME="$PROJECT_NAME"
+
+APP_DIR="\$HOME/.local/share/\$PROJECT_NAME"
+DESKTOP_FILE="\$HOME/.local/share/applications/\$PROJECT_NAME.desktop"
+ICON_FILE="\$HOME/.local/share/icons/\$PROJECT_NAME.png"
+SYMLINK="\$HOME/.local/bin/\$PROJECT_NAME"
+
 echo "Uninstalling \$APP_NAME..."
-if [ -d "\$APP_DIR" ]; then sudo rm -rf "\$APP_DIR"; fi
-if [ -f "\$DESKTOP_FILE" ]; then rm "\$DESKTOP_FILE"; fi
-if [ -f "\$ICON_FILE" ]; then rm "\$ICON_FILE"; fi
-if [ -L "\$SYMLINK" ]; then sudo rm "\$SYMLINK"; fi
-if command -v update-desktop-database >/dev/null; then update-desktop-database "\$HOME/.local/share/applications"; fi
-echo "\$APP_NAME uninstalled."
+[ -d "\$APP_DIR" ] && rm -rf "\$APP_DIR"
+[ -f "\$DESKTOP_FILE" ] && rm "\$DESKTOP_FILE"
+[ -f "\$ICON_FILE" ] && rm "\$ICON_FILE"
+[ -L "\$SYMLINK" ] && rm "\$SYMLINK"
+
+if command -v update-desktop-database >/dev/null; then
+  update-desktop-database "\$HOME/.local/share/applications"
+fi
+
+echo "\$APP_NAME uninstalled successfully."
 EOF
-    
-    # Give it permission to run.
     chmod +x "$RELEASE_DIR/linux/uninstaller.sh"
 
-    # ONLY FOR LINUX
-    # Create install script (Users can use this to install and set up your app, or they can just use the .AppImage)
+    # ------------------------------
+    # Create installer script
+    # ------------------------------
     cat <<EOF > "$RELEASE_DIR/linux/install.sh"
 #!/usr/bin/env bash
 
-# This command will require sudo permissions, the app will be placed in /opt/$PROJECT_NAME.
-
-# You can uninstall this app at any time by running in your terminal:
-# cd /opt/$PROJECT_NAME
-# ./uninstaller.sh
-
-# If it doesn't work make sure it has permission by running: chmod +x uninstaller.sh
-
 APP_NAME="$APP_NAME"
-APP_DIR="/opt/$PROJECT_NAME"
-APPIMAGE_NAME="$PROJECT_NAME.AppImage"
-DESKTOP_FILE="\$HOME/.local/share/applications/$PROJECT_NAME.desktop"
-ICON_FILE="\$HOME/.local/share/icons/$PROJECT_NAME.png"
-SCRIPT_DIR="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
-ICON_PATH="\$SCRIPT_DIR/$PROJECT_NAME.png"
-sudo mkdir -p "\$APP_DIR"
-sudo cp "\$APPIMAGE_NAME" "\$APP_DIR/"
-sudo chmod +x "\$APP_DIR/\$APPIMAGE_NAME"
-sudo cp "\$SCRIPT_DIR/uninstaller.sh" "\$APP_DIR/uninstaller.sh"
-sudo chmod +x "\$APP_DIR/uninstaller.sh"
-sudo ln -sf "\$APP_DIR/\$APPIMAGE_NAME" "/usr/local/bin/$APP_TERMINAL"
+PROJECT_NAME="$PROJECT_NAME"
+APP_DESCRIPTION="$APP_DESCRIPTION"
+APP_TERMINAL="$APP_TERMINAL"
+ICON_PATH="$RELEASE_DIR/linux/$PROJECT_NAME.png"
+
+APP_DIR="\$HOME/.local/share/\$PROJECT_NAME"
+APPIMAGE_NAME="\$PROJECT_NAME.AppImage"
+DESKTOP_FILE="\$HOME/.local/share/applications/\$PROJECT_NAME.desktop"
+ICON_FILE="\$HOME/.local/share/icons/\$PROJECT_NAME.png"
+SYMLINK="\$HOME/.local/bin/\$APP_TERMINAL"
+
+mkdir -p "\$APP_DIR"
+cp "\$APPIMAGE_NAME" "\$APP_DIR/"
+chmod +x "\$APP_DIR/\$APPIMAGE_NAME"
+
+cp "uninstaller.sh" "\$APP_DIR/"
+chmod +x "\$APP_DIR/uninstaller.sh"
+
 mkdir -p "\$(dirname "\$DESKTOP_FILE")"
 cat > "\$DESKTOP_FILE" <<DESKTOP_EOF
 [Desktop Entry]
 Type=Application
 Name=\$APP_NAME
-Exec=\$APP_DIR/\$APPIMAGE_NAME
+Exec="\$APP_DIR/\$APPIMAGE_NAME"
 Icon=\$ICON_FILE
-Comment=$APP_DESCRIPTION
+Comment=\$APP_DESCRIPTION
 Categories=Utility;
 Terminal=false
 DESKTOP_EOF
+
 mkdir -p "\$(dirname "\$ICON_FILE")"
 cp "\$ICON_PATH" "\$ICON_FILE"
-if command -v update-desktop-database >/dev/null; then update-desktop-database "\$HOME/.local/share/applications"; 
+
+mkdir -p "\$(dirname "\$SYMLINK")"
+ln -sf "\$APP_DIR/\$APPIMAGE_NAME" "\$SYMLINK"
+
+if command -v update-desktop-database >/dev/null; then
+  update-desktop-database "\$HOME/.local/share/applications"
 fi
-echo "Installation complete! Run '$APP_TERMINAL' to start."
-echo "To uninstall run: cd /opt/$PROJECT_NAME && sudo chmod +x uninstaller.sh && ./uninstaller.sh"
+
+echo "Installation complete!"
+echo "Run '\$APP_TERMINAL' to start your app."
+echo "To uninstall: cd \$HOME/.local/share/\$PROJECT_NAME && ./uninstaller.sh"
 EOF
     chmod +x "$RELEASE_DIR/linux/install.sh"
 
-    echo "Linux build completed."
+    echo "Linux build completed successfully."
 }
 
 build_web() {
@@ -340,7 +350,7 @@ esac
 # Prompt user to select a platform to build, validating input
 while true; do
   # Show options with commas for readability
-  options_display=$(echo "$options" | tr ' ' ', ')
+  options_display=$(echo "$options" | sed 's/ /, /g')
   read -p "Select platform to build ($options_display): " USER_PLATFORM
 
   valid_input=false

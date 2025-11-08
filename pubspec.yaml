@@ -62,7 +62,7 @@ flutter_native_splash:
 # flutter pub get && dart run flutter_launcher_icons
 
 
-# to add custom font:
+# To add custom font:
 
 # flutter:
 #   fonts:
