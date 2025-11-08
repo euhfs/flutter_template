@@ -328,7 +328,7 @@ build_windows() {
     $BUILD_WINDOWS
 
     cp -r "$WINDOWSBUILD_DIR/"* "$OUTPUT_DIR/windows/" 2>/dev/null || true
-    cp -r "$OUTPUT_DIR/windows/flutter_template.exe" "$OUTPUT_DIR/windows/$PROJECT_NAME.exe"
+    mv "$OUTPUT_DIR/windows/flutter_template.exe" "$OUTPUT_DIR/windows/$PROJECT_NAME.exe"
 
     # Create temporary .iss file
     TMP_ISS=$(mktemp /tmp/generated-iss-XXXXXX.iss) || exit 1
