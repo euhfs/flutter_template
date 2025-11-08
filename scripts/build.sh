@@ -329,7 +329,6 @@ build_windows() {
 
     cp -r "$WINDOWSBUILD_DIR/"* "$OUTPUT_DIR/windows/" 2>/dev/null || true
     mv "$OUTPUT_DIR/windows/flutter_template.exe" "$OUTPUT_DIR/windows/$PROJECT_NAME.exe"
-    mv "$OUTPUT_DIR/windows/flutter_windows.dll" "$OUTPUT_DIR/windows/$PROJECT_NAME.dll"
 
     # Create temporary .iss file
     TMP_ISS=$(mktemp /tmp/generated-iss-XXXXXX.iss) || exit 1
@@ -365,7 +364,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "${WIN_OUTPUT_DIR}\\windows\\${PROJECT_NAME}.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "${WIN_OUTPUT_DIR}\\windows\\${PROJECT_NAME}.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "${WIN_OUTPUT_DIR}\\windows\\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "${WIN_OUTPUT_DIR}\\windows\\data\\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
