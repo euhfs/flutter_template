@@ -41,7 +41,7 @@ And obviously make sure you have flutter installed. If you want to set up the pr
 ## Automated Setup
 
 1. Windows <br>
-    **(To copy and paste commands use right click)**
+    **(To paste commands in the terminal use right click)**
     - Open Git Bash and navigate to your preferred directory e.g. `cd ~/Documents` . This navigates to your Documents directory.
     - Now you have to install the setup script and run it. To do that run in the terminal: 
     ```bash
@@ -52,4 +52,10 @@ And obviously make sure you have flutter installed. If you want to set up the pr
 
         * `Enter the location where it should be installed:` leave empty to use downloads folder or use your projects folder. For example: `C:\Users\YOURUSER\Documents\MyProjects`
 
-        * 
+        * `Do you want to set up the app for Android? (y/n):` enter "y" or "n" if you want or don't want to set up for android.
+
+        * If "y": `Enter your company/dev name to be used in the keystore:` for example: `euhfs`
+
+        * `Enter the password to be used for your keystore:` just enter an password (make sure not to lose it)
+
+        
