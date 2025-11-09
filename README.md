@@ -106,7 +106,7 @@ Is CN=name, OU=name, O=name, L=name, ST=name, C=name correct?
    keyPassword=PASSWORD
    ```
 
-**Skip this step if it's already done for you**
+**Skip this step if it's already done for you** <br>
 3. Set release key in `android/app/build.gradle.kts`
 
    * Add at the top of the file:
@@ -203,6 +203,7 @@ Run the following commands from the **root folder** of your project to add platf
 ```bash
 flutter create . --platforms=windows
 flutter create . --platforms=linux
+flutter create . --platforms=android
 flutter create . --platforms=web
 flutter create . --platforms=macos
 flutter create . --platforms=ios
@@ -247,29 +248,32 @@ Configure flutter_icons in pubspec.yaml:
 
 ```yaml
 # Make sure to edit as needed (for app icon)
-# I recommend https://icon.kitchen/ to generate an 512x512 PNG icon
-flutter_icons:
-  android: true
-  ios: true
-  windows:
-    generate: true
-    icon_size: 128
-  linux:
-    generate: true
-    icon_size: 128
-  macos:
-    generate: true
-  web:
-    generate: true
-  adaptive_icon_background: "#FFFFFF"   # Background color for adaptive icons on Android
-  image_path: "assets/app-icon/app_icon.png"     # Path to your app icon PNG file
+# I recommend https://easyappicon.com/ to generate an 512x512 PNG icon
+icons_launcher:
+  image_path: "assets/app-icon/app_icon.png"
+  platforms:
+    android:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    ios:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    web:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+      favicon_path: "assets/app-icon/app_icon.png"
+    macos:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    windows:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
 ```
 
 after editing the above sections, run the following commands to apply changes run:
 
 ```bash
-flutter pub get
-dart run flutter_launcher_icons
+flutter pub get && dart run icons_launcher:create
 ```
 
 ---
@@ -293,8 +297,7 @@ flutter_native_splash:
 after editing the above sections, run the following commands to apply changes:
 
 ```bash
-flutter pub get
-dart run flutter_native_splash:create
+flutter pub get && dart run flutter_native_splash:create
 ```
 
 ---

@@ -57,6 +57,9 @@
 #        Windows: Inno Setup
 #        macOS: Xcode
 
+# To download appimagetool: https://github.com/AppImage/appimagetool/releases/tag/continuous and get appimagetool-x86_64.AppImage
+# To download Inno Setup: https://jrsoftware.org/isdl.php#stable
+# To download Xcode: https://apps.apple.com/us/app/xcode/id497799835?mt=12
 
 # What this script does:
 # - Builds your Flutter project for selected platforms.
