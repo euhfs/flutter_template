@@ -143,7 +143,7 @@ keytool -genkeypair \
     -keystore "$FINAL_LOCATION/android/app/release.jks" \
     -storepass "$keystore_pass" \
     -keypass "$keystore_pass" \
-    -alias "$keystore_name" \
+    -alias "upload_key" \
     -keyalg RSA \
     -keysize 2048 \
     -validity 10000 \
