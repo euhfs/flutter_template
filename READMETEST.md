@@ -48,13 +48,19 @@ And obviously make sure you have flutter installed. If you want to set up the pr
     winpty curl -o flutterapp.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/flutter_setup.sh && ./flutter_setup.sh
     ```
     - Now follow scripts instructions:
-        * `Enter the name for the main folder:` <br> The name you would enter when using flutter to generate an project. For example: `password_generator`
+        * `Enter the name for the main folder:` <br> The name you would enter when using flutter to generate an project. For example: **password_generator**
 
-        * `Enter the location where it should be installed:` <br> Leave empty to use downloads folder or use your projects folder. For example: `C:\Users\YOURUSER\Documents\MyProjects`
+        * `Enter the location where it should be installed:` <br> Leave empty to use downloads folder or use your projects folder. For example: **C:\Users\YOURUSER\Documents\MyProjects**
 
-        * `Enter the display name for your app:` <br> The display name is what users will see for your app. For example: `Password Generator`
+        * `Enter the display name for your app:` <br> The display name is what users will see for your app. For example: **Password Generator**
 
-        * `Enter package name:` <br> A unique identifier for your app, usually in reverse domain format. For example: `com.euhfs.passwordgenerator
+        * `Enter package name:` <br> A unique identifier for your app, usually in reverse domain format. For example: **com.euhfs.passwordgenerator**
+
+        * `Do you want to set up the keystore for Android? (y/n):` <br> Here you can skip the android keystore setup. It is **very important** if your project is for **android** since it will be used for your release apk and will give errors if you don't have it. (Can still be done **manually** later. Check manual setup on how to set up the keystore)
+
+        * If you chose "y" in the previous step it will ask for **company/dev name** and **password** to be used in the keystore. The company/dev name is not that important and can be anything **BUT** the password is really important, make sure not to lose it.
+
+        
 
         <!-- * `Do you want to set up the app for Android? (y/n):` enter "y" or "n" if you want or don't want to set up for android. -->
 
