@@ -6,24 +6,36 @@
 6. App icon
 7. Splash screen
 
-
-# Flutter Project Template
-
-**This Project is a flutter template that has all the basic things done for you. All you need to do is download it and get straight to producing apps faster than ever. All sections will have a step by step guide on how to configure everything.**
-
 ## Table of contents
 
-- [**Automated setup**]()
-- [**Manual setup**]()
-- [**Project structure**]()
-- [**App icon**]()
-- [**Splash screen**]()
-- []()
-- []()
-- []()
+- [**Introduction**](#introduction)
+- [**Prerequisites**](#before-getting-started)
+- [**Build**](#build)
+- [**Automated setup**](#automated-setup)
+- [**Manual setup**](#manual-setup)
+- [**App icon**](#app-icon)
+- [**Splash screen**](#splash-screen)
+- [**Project structure**](#project-structure)
+- [**Automated release**](#automated-release)
+- [**Manual release**](#manual-release)
 
 
-### Before getting started I recommend you to install the next things based on your OS:
+## Introduction
+
+This Flutter Project Template is a great starting point to build apps fast. It’s made for people who want to spend more time making their app and less time setting it up.
+
+The template works best on Linux, Android, Web, and Windows.
+
+It has easy-to-follow sections that show you how to use scripts to set up and release your project step by step. It also explains how to do everything manually if you want. Using the scripts is the easiest way—they do everything for you and you can have your project ready, with the app icon and all, in less than 30 minutes.
+
+If you get used to the scripts and structure it will take maybe around 10 minutes.
+
+**I recommend to use this for setting up and releasing for iOS/macOS** <br>
+https://docs.flutter.dev/deployment/ios <br>
+https://docs.flutter.dev/deployment/macos
+
+
+## Before getting started I recommend you to install the next things based on your OS:
 
 1. Windows
     - Install git from: https://git-scm.com/install/windows and follow instructions (I recommend to leave all values to default). (Make sure after installation that you have "Git Bash")
@@ -38,6 +50,29 @@
 And obviously make sure you have flutter installed. If you want to set up the project for android make sure you have `keytool` installed on your system. All you need to do is install: https://www.oracle.com/java/technologies/downloads/ otherwise android setup won't work.
 
 
+## Build
+**This will guide you step by step on how to download and build this project to modify it into your own template.**
+
+Since the ``setup.sh`` script automatically uses **default** paths for project folders such as Windows and Linux, etc. I generally do **not recommend** manually changing paths, app IDs, or other values. The script will handle all necessary configurations for you **if** you use it.
+
+1. Download
+    - Download by pressing the **green** code **button** and then "Download ZIP" or
+
+    - **Clone** it by using `https://github.com/euhfs/flutter_template.git`
+
+2. Setup
+    - **Modify** the template based on your style, I recommend changing **only** the **lib folder**. To learn how the default structure is working check the [project structure](#project-stucture)
+
+    - Now you can either **manually** download and change everything each time, or make it work with the `setup.sh` and `build.sh` scripts.
+
+3. Configure scripts
+    - First thing **before** you modify the scripts, you have to **publish** your template on **github**. I recommend as **public** because private might have some "permission issues" and only you will be able to access it.
+
+    - In `setup.sh` find the variable **REPO_URL** and change it to your repository with the modified template and it will work perfectly.
+
+    - In `build.sh` modify all the **variables** based on your need and use. For more **details** read the **start** of the script.
+
+
 ## Automated Setup
 
 1. Windows <br>
@@ -45,7 +80,7 @@ And obviously make sure you have flutter installed. If you want to set up the pr
     - Open Git Bash and navigate to your preferred directory e.g. `cd ~/Documents` . This navigates to your Documents directory.
     - Now you have to install the setup script and run it. To do that run in the terminal: 
     ```bash
-    winpty curl -o flutterapp.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/flutter_setup.sh && ./flutter_setup.sh
+    winpty curl -o setup.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/setup.sh && ./setup.sh
     ```
     - Now follow scripts instructions:
         * `Enter the name for the main folder:` <br> The name you would enter when using flutter to generate an project. For example: **password_generator**
@@ -60,12 +95,240 @@ And obviously make sure you have flutter installed. If you want to set up the pr
 
         * If you chose "y" in the previous step it will ask for **company/dev name** and **password** to be used in the keystore. The company/dev name is not that important and can be anything **BUT** the password is really important, make sure not to lose it.
 
+        * Now you are finished, this template will include folder for every platform available. For example **iOS, linux** etc. If your project is not for linux for example, you can just delete the folder. You can still enable a platform in your project, but you will have to **manually** change app names and so on.
+
+2. Linux <br>
+    - Open your terminal and navigate to your preferred directory e.g. `cd ~/Documents`.
+    - Now you have to install and run the script, to do that run in the terminal:
+    ```bash
+    curl -o setup.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/setup.sh && chmod +x setup.sh && ./setup.sh
+    ```
+    - Now follow scripts instructions:
+        * `Enter the name for the main folder:` <br> The name you would enter when using flutter to generate an project. For example: **password_generator**
+
+        * `Enter the location where it should be installed:` <br> Leave empty to use downloads folder or use your projects folder. For example: **/home/YOURUSER/Documents/MyProjects**
+
+        * `Enter the display name for your app:` <br> The display name is what users will see for your app. For example: **Password Generator**
+
+        * `Enter package name:` <br> A unique identifier for your app, usually in reverse domain format. For example: **com.euhfs.passwordgenerator**
+
+        * `Do you want to set up the keystore for Android? (y/n):` <br> Here you can skip the android keystore setup. It is **very important** if your project is for **android** since it will be used for your release apk and will give errors if you don't have it. (Can still be done **manually** later. Check manual setup on how to set up the keystore)
+
+        * If you chose "y" in the previous step it will ask for **company/dev name** and **password** to be used in the keystore. The company/dev name is not that important and can be anything **BUT** the password is really important, make sure not to lose it.
+
+        * Now you are finished, this template will include folder for every platform available. For example **iOS, windows** etc. If your project is not for windows for example, you can just delete the folder. You can still enable a platform in your project, but you will have to **manually** change app names and so on.
+
+3. macOS <br>
+    **For macOS it will most likely be the same as linux**
+
+    * Since I cannot test for macOS myself, the script is not guaranteed to work.
+
+    * My  script tries to at least change the bundle ID and application name for both iOS and macOS but again it will most likely not work.
+
+    * Check [2. iOS](#manual-setup) and [3. macOS](#manual-setup) sections in manual setup for a bit more details.
+
+
+## Manual Setup
+**In case the automated script didn't work or you want to configure this template manually, this will be the place where you will find how to configure for most platforms in detail.**
+
+1. Android <br>
+    - Change application ID
+        * In `/android/app/proguard-rules.pro` change **com.example.fluttertemplate** from <br> 
+        ```pro
+        -keep class com.example.fluttertemplate.** { *; }
+        ```
+        to your application ID.
         
+        <br>
 
-        <!-- * `Do you want to set up the app for Android? (y/n):` enter "y" or "n" if you want or don't want to set up for android. -->
-
-        <!-- * If "y": `Enter your company/dev name to be used in the keystore:` for example: `euhfs` -->
-
-        <!-- * `Enter the password to be used for your keystore:` just enter an password (make sure not to lose it) -->
-
+        * In `/android/app/build.gradle.kts` change **com.example.fluttertemplate** from <br> 
+        ```kts
+        // TODO: change this to your application's package name
+        namespace = "com.example.fluttertemplate"
+        ```
+        and
         
+        ```kts
+        // TODO: change this to your application's package name
+        applicationId = "com.example.fluttertemplate"
+        ```
+
+        to your application ID.
+
+        <br>
+
+        * In `/android/app/src/main/kotlin/com/example/fluttertemplate/MainActivity.kt` change **com.example.fluttertemplate** from <br>
+        ```kt
+        package com.example.fluttertemplate
+        ```
+        to your application ID.
+        <br>
+        <br>
+
+        **VERY IMPORTANT**
+
+        Make sure to rename the folders **/com/example/fluttertemplate** to match your application ID.
+      
+        For example, if your application ID is `com.mycompany.myapp`, rename the folders to **/com/mycompany/myapp** accordingly.
+      
+        Also, ensure that the folder still contains the **MainActivity.kt** file after renaming.
+
+        <br>
+    
+    - Change app name
+        * In `/android/app/src/main/AndroidManifest.xml` change **flutter_template** from <br>
+        ```xml
+        android:label="flutter_template"
+        ```
+        to your app's name.
+
+        <br>
+
+    - Generate the keystore
+        * Run this command in a cmd or terminal and follow instructions:
+
+        ```bash
+        keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload_key
+        ```
+
+        **Don't forget** the **password** as you will need it again and **don't use symbols** as it might cause **errors**.
+
+        * Move the `release.jks` that was generated (in the directory you ran the command) into `/android/app/`
+
+    - Create key.properties
+        * In `/android/` make a file called **key.properties**
+
+        * Inside the file paste this inside:
+        ```text
+        storeFile=release.jks
+        storePassword=PASSWORD
+        keyAlias=upload_key
+        keyPassword=PASSWORD
+        ```
+
+        and **replace** `PASSWORD` with the **same** password you used while **generating** the keystore.
+
+    **Don't worry about publishing `key.properties` or `release.jks` to github because they are added inside `.gitignore`**.
+
+2. iOS <br>
+    - check [the official links](https://docs.flutter.dev/deployment/ios) from flutter since iOS is a bit more complicated to set up.
+
+3. macOS <br>
+    - check [the official links](https://docs.flutter.dev/deployment/macos) from flutter since macOS is a bit more complicated to set up.
+
+4. Windows <br>
+    - Change app name
+        * In `/windows/runner/main.cpp` change **flutter_template** from <br>
+        ```cpp
+        if (!window.Create(L"flutter_template", origin, size)) {
+        return EXIT_FAILURE;
+        }
+        ```
+        
+        with your app's name.
+
+5. Linux <br>
+    - Change app name
+        * In `/linux/runner/my_application.cc` change **flutter_template** from<br>
+        ```cc
+        if (use_header_bar) {
+        GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
+        gtk_widget_show(GTK_WIDGET(header_bar));
+        gtk_header_bar_set_title(header_bar, "flutter_template");
+        gtk_header_bar_set_show_close_button(header_bar, TRUE);
+        gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
+        } else {
+        gtk_window_set_title(window, "flutter_template");
+        }
+        ```
+        to your app's name.
+
+6. Web <br>
+    - Change app name
+        * In `/web/index.html` change **flutter_template** from <br>
+        ```html
+        <title>flutter_template</title>
+        ```
+        to your app's name.
+
+
+
+## App icon
+**To set up an icon for your app is very easy**
+1. Open `pubspec.yaml` file from the root of your project.
+
+2. Find the part:
+```yaml
+# Make sure to edit as needed (for app icon)
+# I recommend https://easyappicon.com/ to generate an 512x512 PNG icon
+icons_launcher:
+  image_path: "assets/app-icon/app_icon.png"
+  platforms:
+    android:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    ios:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    web:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+      favicon_path: "assets/app-icon/app_icon.png"
+    macos:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+    windows:
+      enable: true
+      image_path: "assets/app-icon/app_icon.png"
+
+
+# after editing the above sections, run the following commands to apply changes:
+
+# flutter pub get && dart run icons_launcher:create
+
+```
+
+3. Generate an 512x512 PNG icon.
+    - **Prepare** the image you want to use as your **app icon**, then open https://easyappicon.com/ in your web browser.
+    
+    - **Upload** the image.
+
+    - Change **size** based on your image.
+
+    - Change **background color** if needed.
+
+    - **Download** (make sure format is set as `png`)
+
+4. **Extract** the zip that was downloaded and open the **android** folder inside
+
+5. **Find** the `ic_launcher-web.png` and rename it to `app_icon.png`
+
+6. **Replace** the default **app_icon.png** from `/assets/app-icon/app_icon.png` with the one you just generated.
+
+7. To update the app icon run the commands in your IDE's terminal or in any terminal inside the root of your project and run:
+```bash
+flutter pub get && dart run icons_launcher:create
+```
+
+8. Done!
+
+## Splash screen
+My preference for splash screens is to use the same app-icon and only configure the background color, but you can checkout https://pub.dev/packages/flutter_native_splash which has documentation on how to configure it, and make it as you like.
+
+```yaml
+# Make sure to edit as needed (for splash screen)
+flutter_native_splash:
+  image: assets/app-icon/app_icon.png  # Path to splash image (general)
+  color: "#FFFFFF"                     # Splash screen background color
+  icon_background_color: "#FFFFFF"    # Background color behind the splash icon
+  android_12:
+    image: assets/app-icon/app_icon.png   # Path to splash image for android
+    color: "#FFFFFF"                   # Splash color for Android 12+
+    icon_background_color: "#FFFFFF"
+  ios: true                           # Enable splash screen on iOS
+  web: true                           # Enable splash screen on web
+
+# after editing the above sections, run the following commands to apply changes:
+
+# flutter pub get && dart run flutter_native_splash:create
+```

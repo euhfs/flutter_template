@@ -17,8 +17,8 @@
 
 
 # Usage:
-#   chmod +x flutter_setup.sh
-#   ./flutter_setup.sh
+#   chmod +x setup.sh
+#   ./setup.sh
 
 
 # Colors
@@ -199,7 +199,7 @@ keytool -genkeypair \
     -keypass "$keystore_pass" \
     -alias "upload_key" \
     -keyalg RSA \
-	-keysize 2048 \
+    -keysize 2048 \
     -validity 10000 \
     -dname "CN=, OU=, O=, L=, ST=, C="
 

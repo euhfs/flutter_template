@@ -49,9 +49,11 @@ icons_launcher:
 
 # Make sure to edit as needed (for splash screen)
 flutter_native_splash:
+  image: assets/app-icon/app_icon.png  # Path to splash image (general)
   color: "#FFFFFF"                     # Splash screen background color
   icon_background_color: "#FFFFFF"    # Background color behind the splash icon
   android_12:
+    image: assets/app-icon/app_icon.png   # Path to splash image for android
     color: "#FFFFFF"                   # Splash color for Android 12+
     icon_background_color: "#FFFFFF"
   ios: true                           # Enable splash screen on iOS
