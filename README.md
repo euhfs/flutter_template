@@ -1,19 +1,3 @@
-## Table of contents
-
-- [**Introduction**](#introduction)
-- [**Required Tools**](#required-tools)
-- [**Build**](#build)
-- [**Automated setup**](#automated-setup)
-- [**Manual setup**](#manual-setup)
-- [**App icon**](#app-icon)
-- [**Splash screen**](#splash-screen)
-- [**Project structure**](#project-structure)
-- [**Adding and removing platforms**](#adding-and-removing-platforms)
-- [**Automated release**](#automated-release)
-- [**Manual release**](#manual-release)
-- [**Publishing**](#publishing)
-
-
 ## Introduction
 
 This Flutter Project Template is a great starting point to build apps fast. It’s made for people who want to spend more time making their app and less time setting it up.
@@ -28,6 +12,21 @@ If you get used to the scripts and structure it will take maybe around 10 minute
 https://docs.flutter.dev/deployment/ios <br>
 https://docs.flutter.dev/deployment/macos
 
+
+## Table of contents
+
+- [**Required Tools**](#required-tools)
+- [**Build**](#build)
+- [**Automated setup**](#automated-setup)
+- [**Manual setup**](#manual-setup)
+- [**App icon**](#app-icon)
+- [**Splash screen**](#splash-screen)
+- [**Project structure**](#project-structure)
+- [**Adding and removing platforms**](#adding-and-removing-platforms)
+- [**Automated release**](#automated-release)
+- [**Manual release**](#manual-release)
+- [**Publishing**](#publishing)
+- [**License**](#license)
 
 ## Required tools
 **(Based on your operating system)**
@@ -51,17 +50,17 @@ And obviously make sure you have flutter installed. If you want to set up the pr
 Since the ``setup.sh`` script automatically uses **default** paths for project folders such as Windows and Linux, etc. I generally do **not recommend** manually changing paths, app IDs, or other values. The script will handle all necessary configurations for you **if** you use it.
 
 1. Download
-    - Download by pressing the **green** code **button** and then "Download ZIP" or
+    - Download by clicking the **green code button** and then "Download ZIP" or
 
     - **Clone** it by using `https://github.com/euhfs/flutter_template.git`
 
 2. Setup
-    - **Modify** the template based on your style, I recommend changing **only** the **lib folder**. To learn how the default structure is working check the [project structure](#project-stucture)
+    - **Modify** the template based on your style, I recommend changing **only** the **lib folder**. To learn how the default structure is working check the [project structure](#project-structure)
 
     - Now you can either **manually** download and change everything each time, or make it work with the `setup.sh` and `build.sh` scripts.
 
 3. Configure scripts
-    - First thing **before** you modify the scripts, you have to **publish** your template on **github**. I recommend as **public** because private might have some "permission issues" and only you will be able to access it.
+    - First thing **before** you modify the scripts, you have to **publish** your template on **GitHub**. I recommend as **public** because private might have some "permission issues" and only you will be able to access it.
 
     - In `setup.sh` find the variable **REPO_URL** and change it to your repository with the modified template and it will work perfectly.
 
@@ -73,10 +72,11 @@ Since the ``setup.sh`` script automatically uses **default** paths for project f
 1. Windows <br>
     **(To paste commands in the terminal use right click)**
     - Open Git Bash and navigate to your preferred directory e.g. `cd ~/Documents` . This navigates to your Documents directory.
-    - Now you have to install the setup script and run it. To do that run in the terminal: 
-    ```bash
-    winpty curl -o setup.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/setup.sh && ./setup.sh
-    ```
+    - Now you have to install the setup script and run it. To do that run in the terminal:
+
+        ```bash
+        winpty curl -o setup.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/setup.sh && ./setup.sh
+        ```
     - Now follow scripts instructions:
         * `Enter the name for the main folder:` <br> The name you would enter when using flutter to generate an project. For example: **password_generator**
 
@@ -90,14 +90,15 @@ Since the ``setup.sh`` script automatically uses **default** paths for project f
 
         * If you chose "y" in the previous step it will ask for **company/dev name** and **password** to be used in the keystore. The company/dev name is not that important and can be anything **BUT** the password is really important, make sure not to lose it.
 
-        * Now you are finished, this template will include folder for every platform available. For example **iOS, linux** etc. If your project is not for linux for example, you can just delete the folder. You can still enable a platform in your project, but you will have to **manually** change app names and so on.
+        * Now you are finished, this template will include folder for every platform available. For example **iOS, Linux** etc. If your project is not for Linux for example, you can just delete the folder. You can still enable a platform in your project, but you will have to **manually** change app names and so on.
 
 2. Linux <br>
     - Open your terminal and navigate to your preferred directory e.g. `cd ~/Documents`.
     - Now you have to install and run the script, to do that run in the terminal:
-    ```bash
-    curl -o setup.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/setup.sh && chmod +x setup.sh && ./setup.sh
-    ```
+
+        ```bash
+        curl -o setup.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/setup.sh && chmod +x setup.sh && ./setup.sh
+        ```
     - Now follow scripts instructions:
         * `Enter the name for the main folder:` <br> The name you would enter when using flutter to generate an project. For example: **password_generator**
 
@@ -111,7 +112,7 @@ Since the ``setup.sh`` script automatically uses **default** paths for project f
 
         * If you chose "y" in the previous step it will ask for **company/dev name** and **password** to be used in the keystore. The company/dev name is not that important and can be anything **BUT** the password is really important, make sure not to lose it.
 
-        * Now you are finished, this template will include folder for every platform available. For example **iOS, windows** etc. If your project is not for windows for example, you can just delete the folder. You can still enable a platform in your project, but you will have to **manually** change app names and so on.
+        * Now you are finished, this template will include folder for every platform available. For example **iOS, Windows** etc. If your project is not for Windows for example, you can just delete the folder. You can still enable a platform in your project, but you will have to **manually** change app names and so on.
 
 3. macOS <br>
     **For macOS it will most likely be the same as linux**
@@ -129,34 +130,37 @@ Since the ``setup.sh`` script automatically uses **default** paths for project f
 1. Android <br>
     - Change application ID
         * In `/android/app/proguard-rules.pro` change **com.example.fluttertemplate** from <br> 
-        ```pro
-        -keep class com.example.fluttertemplate.** { *; }
-        ```
-        to your application ID.
+
+            ```pro
+            -keep class com.example.fluttertemplate.** { *; }
+            ```
+            to your application ID.
         
         <br>
 
         * In `/android/app/build.gradle.kts` change **com.example.fluttertemplate** from <br> 
-        ```kts
-        // TODO: change this to your application's package name
-        namespace = "com.example.fluttertemplate"
-        ```
-        and
-        
-        ```kts
-        // TODO: change this to your application's package name
-        applicationId = "com.example.fluttertemplate"
-        ```
 
-        to your application ID.
+            ```kts
+            // TODO: change this to your application's package name
+            namespace = "com.example.fluttertemplate"
+            ```
+            and
+        
+            ```kts
+            // TODO: change this to your application's package name
+            applicationId = "com.example.fluttertemplate"
+            ```
+
+            to your application ID.
 
         <br>
 
         * In `/android/app/src/main/kotlin/com/example/fluttertemplate/MainActivity.kt` change **com.example.fluttertemplate** from <br>
-        ```kt
-        package com.example.fluttertemplate
-        ```
-        to your application ID.
+
+            ```kt
+            package com.example.fluttertemplate
+            ```
+            to your application ID.
         <br>
         <br>
 
@@ -172,19 +176,20 @@ Since the ``setup.sh`` script automatically uses **default** paths for project f
     
     - Change app name
         * In `/android/app/src/main/AndroidManifest.xml` change **flutter_template** from <br>
-        ```xml
-        android:label="flutter_template"
-        ```
-        to your app's name.
+
+            ```xml
+            android:label="flutter_template"
+            ```
+            to your app's name.
 
         <br>
 
     - Generate the keystore
         * Run this command in a cmd or terminal and follow instructions:
 
-        ```bash
-        keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload_key
-        ```
+            ```bash
+            keytool -genkeypair -v -keystore release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload_key
+            ```
 
         **Don't forget** the **password** as you will need it again and **don't use symbols** as it might cause **errors**.
 
@@ -194,16 +199,19 @@ Since the ``setup.sh`` script automatically uses **default** paths for project f
         * In `/android/` make a file called **key.properties**
 
         * Inside the file paste this inside:
-        ```text
-        storeFile=release.jks
-        storePassword=PASSWORD
-        keyAlias=upload_key
-        keyPassword=PASSWORD
-        ```
 
-        and **replace** `PASSWORD` with the **same** password you used while **generating** the keystore.
+            ```text
+            storeFile=release.jks
+            storePassword=PASSWORD
+            keyAlias=upload_key
+            keyPassword=PASSWORD
+            ```
 
-    **Don't worry about publishing `key.properties` or `release.jks` to github because they are added inside `.gitignore`**.
+            and **replace** `PASSWORD` with the **same** password you used while **generating** the keystore.
+
+    **Don't worry about publishing `key.properties` or `release.jks` to GitHub because they are added inside `.gitignore`**.
+
+    <br>
 
 2. iOS <br>
     - check [the official links](https://docs.flutter.dev/deployment/ios) from flutter since iOS is a bit more complicated to set up.
@@ -214,38 +222,40 @@ Since the ``setup.sh`` script automatically uses **default** paths for project f
 4. Windows <br>
     - Change app name
         * In `/windows/runner/main.cpp` change **flutter_template** from <br>
-        ```cpp
-        if (!window.Create(L"flutter_template", origin, size)) {
-        return EXIT_FAILURE;
-        }
-        ```
+
+            ```cpp
+            if (!window.Create(L"flutter_template", origin, size)) {
+            return EXIT_FAILURE;
+            }
+            ```
         
-        with your app's name.
+            with your app's name.
 
 5. Linux <br>
     - Change app name
         * In `/linux/runner/my_application.cc` change **flutter_template** from<br>
-        ```cc
-        if (use_header_bar) {
-        GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
-        gtk_widget_show(GTK_WIDGET(header_bar));
-        gtk_header_bar_set_title(header_bar, "flutter_template");
-        gtk_header_bar_set_show_close_button(header_bar, TRUE);
-        gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
-        } else {
-        gtk_window_set_title(window, "flutter_template");
-        }
-        ```
-        to your app's name.
+
+            ```cc
+            if (use_header_bar) {
+            GtkHeaderBar* header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
+            gtk_widget_show(GTK_WIDGET(header_bar));
+            gtk_header_bar_set_title(header_bar, "flutter_template");
+            gtk_header_bar_set_show_close_button(header_bar, TRUE);
+            gtk_window_set_titlebar(window, GTK_WIDGET(header_bar));
+            } else {
+            gtk_window_set_title(window, "flutter_template");
+            }
+            ```
+            to your app's name.
 
 6. Web <br>
     - Change app name
         * In `/web/index.html` change **flutter_template** from <br>
-        ```html
-        <title>flutter_template</title>
-        ```
-        to your app's name.
-
+        
+            ```html
+            <title>flutter_template</title>
+            ```
+            to your app's name.
 
 
 ## App icon
@@ -445,7 +455,7 @@ After you have created your app you can **easily** make it available for release
     flutter build windows --release
     ```
 
-    For windows it is a bit more complicated, for publishing on the microsoft store check the official flutter documentation.
+    For Windows it is a bit more complicated, for publishing on the microsoft store check the official flutter documentation.
 
     For publishing everywhere else, Inno Setup is recommended.
 
@@ -516,3 +526,6 @@ After you ran the build script the release outputs based on your OS will be loca
 
 4. Web <br>
     - Find the `web` folder inside `Documents/flutter/release/yourproject/web`, inside there you will have the index.html and everything needed to either make it an entire app or integrate into an website. I recommend watching an tutorial on how to do that.
+
+# License
+This project template is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
