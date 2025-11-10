@@ -8,9 +8,8 @@ It has easy-to-follow sections that show you how to use scripts to set up and re
 
 If you get used to the scripts and structure it will take maybe around 10 minutes.
 
-**I recommend to use this for setting up and releasing for iOS/macOS** <br>
-https://docs.flutter.dev/deployment/ios <br>
-https://docs.flutter.dev/deployment/macos
+For iOS/macOS setup and release, refer to Flutter’s official deployment docs:
+https://docs.flutter.dev/deployment
 
 
 ## Table of contents
@@ -26,6 +25,8 @@ https://docs.flutter.dev/deployment/macos
 - [**Automated release**](#automated-release)
 - [**Manual release**](#manual-release)
 - [**Publishing**](#publishing)
+- [**Issues**](#issues)
+- [**Tasks**](#tasks)
 - [**License**](#license)
 
 ## Required tools
@@ -391,35 +392,33 @@ After you have created your app you can **easily** make it available for release
 
 1. Make sure you have the required tools downloaded for your specific platform [here](#required-tools).
 
-2. Open the `build.sh` script and read the comments at the start which will help you to know what to modify based on your OS and needs.
+2. Open the `build.sh` script, there you will have information in detail on how, and what to change.
 
-3. If you think that it's hard to understand what you have to do here is a short list:
+3. Here is an overview:
 
     Globally used
-    - **APP_VERSION="1.0.0+1"** This will be the version used for your app across **all platforms**, change at every release.
+    - **APP_VERSION="1.0.0+1"** Version number.
 
-    - **APP_NAME="Flutter Template"** This will be the display name for your app for **Windows/Linux/macOS**, it's used by Inno Setup (for Windows) and by Linux and macOS by desktop entries.
+    - **APP_NAME="Flutter Template"** Display name **only** for Linux/macOS desktop entries.
 
     Linux/macOS specific
-    - **APP_DESCRIPTION="A Flutter template..."** This will be the description used by desktop entries for **Linux and macOS**.
+    - **APP_DESCRIPTION="A Flutter template..."** Description for desktop entires, **only** Linux/macOS.
 
-    - **APP_TERMINAL="flutter-template"** This will be the command that people who install your app via the installer.sh on **Linux and macOS** will be able to use to start your app from the terminal.
+    - **APP_TERMINAL="flutter-template"** Command to run app from terminal, only when users use the `install.sh` script.
 
     Windows specific
-    - **APP_PUBLISHER="euhfs"** This will be used by the Inno Setup installer and app metadata on Windows.
+    - **APP_PUBLISHER="euhfs"** Your name or company.
 
-    - **APP_URL="https://github.com/euhfs/flutter_template"** This is the website or GitHub repository that people can visit for more information.
+    - **APP_URL="https://github.com/euhfs/flutter_template"** Your website.
 
-    - **APP_ID="{{5193F39C-8C38-41CF-93C2-07F401FB0530}}"** This will be the unique ID for your app (like application ID on android). Check script on how to get another ID using Inno Setup.
+    - **APP_ID="{{5193F39C-8C38-41CF-93C2-07F401FB0530}}"** Unique identifier for your app.
 
     - For Windows you also need to make sure your Inno Setup **path** is correct.
 
     Linux specific
     - For Linux you also need to make sure your appimagetool **path** is correct.
 
-4. I still REALLY recommend to read through the start of the build script to understand correctly and make sure everything is set up right.
-
-5. This script will check if you are on Windows/Linux/macOS and adjust available build platforms.
+4. This script will check if you are on Windows/Linux/macOS and adjust available build platforms.
     - **Linux:** `Linux, Android, Web`
 
     - **Windows:** `Windows, Android, Web`
@@ -429,7 +428,7 @@ After you have created your app you can **easily** make it available for release
 ## Manual release
 
 1. Android <br>
-    For android it's really easy, in the root folder, run in the terminal:
+    To build for Android, run:
 
     - For an universal apk (can be run on any android device but big in size)
 
@@ -526,6 +525,21 @@ After you ran the build script the release outputs based on your OS will be loca
 
 4. Web <br>
     - Find the `web` folder inside `Documents/flutter/release/yourproject/web`, inside there you will have the index.html and everything needed to either make it an entire app or integrate into an website. I recommend watching an tutorial on how to do that.
+
+
+## Issues
+
+
+Track bugs and feature requests using **GitHub Issues**. Please **describe** problems **clearly** and check **existing** issues before opening a new one.
+
+
+## Tasks
+
+
+* Make a demo app for mobile/desktop also using core
+* Cleaner structure
+* Cleaner app theme + colors
+
 
 # License
 This project template is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
