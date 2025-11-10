@@ -17,6 +17,7 @@
 
 
 # Usage:
+#   chmod +x flutterapp.sh
 #   ./flutter_setup.sh
 
 
@@ -69,6 +70,18 @@ if [[ ! -d "$OUTPUT_LOCATION" ]]; then
 	exit 1
 fi
 
+
+# Ask for app display name
+read -r -p "Enter display name for your app: " app_name
+
+
+# ask for package name/id
+echo
+echo "Now you need to enter the package name (Application ID) for your app. It MUST be UNIQUE!"
+echo "Example:  com.yourcompany.appname"
+read -r -p "Enter package name: " package_name
+
+
 # full path to where repo will be cloned
 FINAL_LOCATION="$OUTPUT_LOCATION/$MAIN_FOLDER"
 
@@ -107,11 +120,42 @@ flutter pub upgrade || { echo -e "${RED}[ERROR]:${NC} flutter pub upgrade failed
 flutter clean || { echo -e "${RED}[ERROR]:${NC} flutter clean failed"; exit 1; }
 flutter pub get || { echo -e "${RED}[ERROR]:${NC} flutter pub get failed"; exit 1; }
 
+
+echo
+echo -e "${GREEN}[INFO]:${NC} Downloaded flutter template into $FINAL_LOCATION"
+echo
+
+}
+
+# Ask to skip android keystore setup or not
+skip_android() {
+
+# Generate keystore and key.properties and move inside final location in proper spaces
+echo
+echo "If you plan to release the app on Android, a keystore is required. If not, you may skip this step."
+echo -e "${YELLOW}[WARNING]:${NC} Skipping this avoids android keystore setup. Can be done manually later."
+
+# ask to skip this step or not
+echo
+read -r -p "Do you want to set up the keystore for Android? (y/n): " choice
+
+
+# skip or not based on input
+
+case $choice in
+	[nN]* ) echo -e "${GREEN}[INFO]:${NC} Skipping step..." ;;
+	[yY]* ) echo -e "${GREEN}[INFO]:${NC} Entering keystore setup..."
+		make_keystore ;;
+	*) echo "Please enter (y/n):" ;;
+esac
+
 }
 
 
-# make keystore function
+# make keystore function (for android)
 make_keystore() {
+
+
 
 # ask for name/dev name for keystore
 while true; do
@@ -124,6 +168,7 @@ while true; do
 		echo -e "${RED}[ERROR]:${NC} Name must be 3-30 characters including: letters, digits, underscores, or hyphens only"
 	fi
 done
+
 
 # ask for password for keystore
 while true; do
@@ -145,7 +190,7 @@ keytool -genkeypair \
     -keypass "$keystore_pass" \
     -alias "upload_key" \
     -keyalg RSA \
-    -keysize 2048 \
+
     -validity 10000 \
     -dname "CN=, OU=, O=, L=, ST=, C="
 
@@ -159,13 +204,6 @@ echo -e "${GREEN}[INFO]:${NC} keystore and key.properties step finished with no 
 
 # function to update proguard file (android)
 edit_proguard() {
-
-# ask for package name/id
-echo
-echo "Now you need to enter the package name (Application ID) for your app. It MUST be UNIQUE!"
-echo "Example:  com.yourcompany.appname"
-echo
-read -r -p "Enter package name: " package_name
 
 # edit the package name inside proguard
 replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/proguard-rules.pro"
@@ -219,11 +257,7 @@ replace_in_file() {
 }
 
 # function to edit app name
-edit_app_name() {
-
-# Ask for app display name
-echo
-read -r -p "Enter display name for your app: " app_name
+update_app_name() {
 
 # Android
 replace_in_file 'flutter_template' "$app_name" "$FINAL_LOCATION/android/app/src/main/AndroidManifest.xml"
@@ -248,7 +282,7 @@ echo -e "${GREEN}[INFO]:${NC} Edited iOS app name to $app_name"
 
 # macOS
 replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate.RunnerTests' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
-replace_in_file "PRODUCT_NAME = $(TARGET_NAME);" "PRODUCT_NAME = \"$app_name\";" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
+replace_in_file "PRODUCT_NAME = \$(TARGET_NAME);" "PRODUCT_NAME = \"$app_name\";" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
 echo -e "${GREEN}[INFO]:${NC} Edited macOS app name to $app_name"
 
 }
@@ -273,42 +307,28 @@ replace_in_file 'com.example.flutter_template' "$package_name" "$FINAL_LOCATION/
 }
 
 
+# RUN FUNCTIONS
+
+
 # run get started step
 get_started
 
-
-# Generate keystore and key.properties and move inside final location in proper spaces
-echo
-echo -e "${GREEN}[INFO]:${NC} Downloaded flutter template into $FINAL_LOCATION"
-echo "If you plan to release the app on Android, a keystore is required. If not, you may skip this step."
-echo -e "${YELLOW}[WARNING]:${NC} Skipping this avoids android setup entirely"
-
-# ask to skip this step or not
-echo
-read -r -p "Do you want to set up the app for Android? (y/n): " choice
-
-
-# skip or not based on input
-
-case $choice in
-	[nN]* ) echo -e "${GREEN}[INFO]:${NC} Skipping step..." ;;
-	[yY]* ) echo -e "${GREEN}[INFO]:${NC} Entering keystore setup..."
-		make_keystore
-		edit_proguard
-		update_package_name
-	      	;;
-	*) echo "Please enter (y/n):" ;;
-esac
-
+# run skip choice
+skip_android
 
 # run edit app name to change app name on available platforms
-edit_app_name
+update_app_name
 
 # run edit pubspec to change 'name:' to folder name
 edit_pubspec
 
 # run edit cmake to change some stuff for linux
 edit_cmake
+
+# for android (safer to be done anyway)
+edit_proguard
+update_package_name
+
 
 # Finish messages
 echo
