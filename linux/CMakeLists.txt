@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(runner LANGUAGES CXX)
 
 set(BINARY_NAME "flutter_template")
-set(APPLICATION_ID "com.example.flutter_template")
+set(APPLICATION_ID "com.example.fluttertemplate")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.

@@ -48,11 +48,13 @@ And obviously make sure you have flutter installed. If you want to set up the pr
     winpty curl -o flutterapp.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/flutter_setup.sh && ./flutter_setup.sh
     ```
     - Now follow scripts instructions:
-        * `Enter the name for the main folder:` is the name you would enter when using flutter to generate an project. For example: `password_generator`
+        * `Enter the name for the main folder:` <br> The name you would enter when using flutter to generate an project. For example: `password_generator`
 
-        * `Enter the location where it should be installed:` leave empty to use downloads folder or use your projects folder. For example: `C:\Users\YOURUSER\Documents\MyProjects`
+        * `Enter the location where it should be installed:` <br> Leave empty to use downloads folder or use your projects folder. For example: `C:\Users\YOURUSER\Documents\MyProjects`
 
-        * `Enter
+        * `Enter the display name for your app:` <br> The display name is what users will see for your app. For example: `Password Generator`
+
+        * `Enter package name:` <br> A unique identifier for your app, usually in reverse domain format. For example: `com.euhfs.passwordgenerator
 
         <!-- * `Do you want to set up the app for Android? (y/n):` enter "y" or "n" if you want or don't want to set up for android. -->
 

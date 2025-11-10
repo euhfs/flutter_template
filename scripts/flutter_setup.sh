@@ -79,8 +79,17 @@ read -r -p "Enter the display name for your app: " app_name
 echo
 echo "Now you need to enter the package name (Application ID) for your app. It MUST be UNIQUE!"
 echo "Example:  com.yourcompany.appname"
-read -r -p "Enter package name: " package_name
+while true; do
+    read -r -p "Enter package name: " package_name
 
+    # Validate package name: must be lowercase letters, numbers, dots only — no underscores
+    if [[ "$package_name" =~ ^[a-z0-9]+(\.[a-z0-9]+)+$ ]]; then
+        break
+    else
+        echo -e "${RED}[ERROR]:${NC} Invalid package name format."
+        echo "Use only lowercase letters, numbers, and dots. Example: com.example.myapp"
+    fi
+done
 
 # full path to where repo will be cloned
 FINAL_LOCATION="$OUTPUT_LOCATION/$MAIN_FOLDER"
@@ -206,7 +215,7 @@ echo -e "${GREEN}[INFO]:${NC} keystore and key.properties step finished with no 
 edit_proguard() {
 
 # edit the package name inside proguard
-replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/proguard-rules.pro"
+replace_in_file "com.example.fluttertemplate" "$package_name" "$FINAL_LOCATION/android/app/proguard-rules.pro"
 
 echo
 echo -e "${GREEN}[INFO]:${NC} Updated proguard-rules.pro with the package name provided."
@@ -217,10 +226,10 @@ echo -e "${GREEN}[INFO]:${NC} Updated proguard-rules.pro with the package name p
 update_package_name() {
 
 # change package name in build.gradle.kts
-replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/build.gradle.kts"
+replace_in_file "com.example.fluttertemplate" "$package_name" "$FINAL_LOCATION/android/app/build.gradle.kts"
 
 # change package name in MainActivity.kt before changing folder name based on package name
-replace_in_file "com.example.flutter_template" "$package_name" "$FINAL_LOCATION/android/app/src/main/kotlin/com/example/flutter_template/MainActivity.kt"
+replace_in_file "com.example.fluttertemplate" "$package_name" "$FINAL_LOCATION/android/app/src/main/kotlin/com/example/flutter_template/MainActivity.kt"
 
 
 # Split package name to rename the folders inside kotlin as needed
@@ -281,7 +290,7 @@ replace_in_file 'Flutter Template' "$app_name" "$FINAL_LOCATION/ios/Runner/Info.
 echo -e "${GREEN}[INFO]:${NC} Edited iOS app name to $app_name"
 
 # macOS
-replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate.RunnerTests' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
+replace_in_file 'PRODUCT_BUNDLE_IDENTIFIER = com.example.flutterTemplate' "PRODUCT_BUNDLE_IDENTIFIER = $package_name" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
 replace_in_file "PRODUCT_NAME = \$(TARGET_NAME);" "PRODUCT_NAME = \"$app_name\";" "$FINAL_LOCATION/macos/Runner.xcodeproj/project.pbxproj"
 echo -e "${GREEN}[INFO]:${NC} Edited macOS app name to $app_name"
 
@@ -302,7 +311,7 @@ edit_cmake() {
 replace_in_file 'flutter_template' "$MAIN_FOLDER" "$FINAL_LOCATION/linux/CMakeLists.txt"
 
 # Edit app id (package_name)
-replace_in_file 'com.example.flutter_template' "$package_name" "$FINAL_LOCATION/linux/CMakeLists.txt"
+replace_in_file 'com.example.fluttertemplate' "$package_name" "$FINAL_LOCATION/linux/CMakeLists.txt"
 
 }
 
