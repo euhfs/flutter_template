@@ -45,17 +45,19 @@ And obviously make sure you have flutter installed. If you want to set up the pr
     - Open Git Bash and navigate to your preferred directory e.g. `cd ~/Documents` . This navigates to your Documents directory.
     - Now you have to install the setup script and run it. To do that run in the terminal: 
     ```bash
-    winpty curl -o flutterapp.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/flutterapp.sh && ./flutterapp.sh
+    winpty curl -o flutterapp.sh https://raw.githubusercontent.com/euhfs/flutter_template/refs/heads/main/scripts/flutter_setup.sh && ./flutter_setup.sh
     ```
     - Now follow scripts instructions:
         * `Enter the name for the main folder:` is the name you would enter when using flutter to generate an project. For example: `password_generator`
 
         * `Enter the location where it should be installed:` leave empty to use downloads folder or use your projects folder. For example: `C:\Users\YOURUSER\Documents\MyProjects`
 
-        * `Do you want to set up the app for Android? (y/n):` enter "y" or "n" if you want or don't want to set up for android.
+        * `Enter
 
-        * If "y": `Enter your company/dev name to be used in the keystore:` for example: `euhfs`
+        <!-- * `Do you want to set up the app for Android? (y/n):` enter "y" or "n" if you want or don't want to set up for android. -->
 
-        * `Enter the password to be used for your keystore:` just enter an password (make sure not to lose it)
+        <!-- * If "y": `Enter your company/dev name to be used in the keystore:` for example: `euhfs` -->
+
+        <!-- * `Enter the password to be used for your keystore:` just enter an password (make sure not to lose it) -->
 
         
