@@ -9,7 +9,7 @@
 ## Table of contents
 
 - [**Introduction**](#introduction)
-- [**Prerequisites**](#before-getting-started)
+- [**Required Tools**](#required-tools)
 - [**Build**](#build)
 - [**Automated setup**](#automated-setup)
 - [**Manual setup**](#manual-setup)
@@ -35,7 +35,8 @@ https://docs.flutter.dev/deployment/ios <br>
 https://docs.flutter.dev/deployment/macos
 
 
-## Before getting started I recommend you to install the next things based on your OS:
+## Required tools
+**(Based on your operating system)**
 
 1. Windows
     - Install git from: https://git-scm.com/install/windows and follow instructions (I recommend to leave all values to default). (Make sure after installation that you have "Git Bash")
@@ -315,6 +316,9 @@ flutter pub get && dart run icons_launcher:create
 ## Splash screen
 My preference for splash screens is to use the same app-icon and only configure the background color, but you can checkout https://pub.dev/packages/flutter_native_splash which has documentation on how to configure it, and make it as you like.
 
+1. Open `pubspec.yaml` file from the root of your project.
+
+2. Find the part:
 ```yaml
 # Make sure to edit as needed (for splash screen)
 flutter_native_splash:
@@ -332,3 +336,98 @@ flutter_native_splash:
 
 # flutter pub get && dart run flutter_native_splash:create
 ```
+
+3. To update the splash screen run the commands in your IDE's terminal or in any terminal inside the root of your project and run:
+
+```bash
+flutter pub get && dart run flutter_native_splash:create
+```
+
+4. To remove and return to default:
+
+```bash
+dart run flutter_native_splash:remove
+```
+
+5. Done!
+
+
+## Project structure
+
+
+
+
+## Automated release
+After you have created your app you can **easily** make it available for release **(share it)** by using the `build.sh` script that is located in `scripts/build.sh`.
+
+1. Make sure you have the required tools downloaded for your specific platform [here](#required-tools).
+
+2. Open the `build.sh` script and read the comments at the start which will help you to know what to modify based on your OS and needs.
+
+3. If you think that it's hard to understand what you have to do here is a short list:
+
+    Globally used
+    - **APP_VERSION="1.0.0+1"** This will be the version used for your app across **all platforms**, change at every release.
+
+    - **APP_NAME="Flutter Template"** This will be the display name for your app for **Windows/Linux/macOS**, it's used by Inno Setup (for Windows) and by Linux and macOS by desktop entries.
+
+    Linux/macOS specific
+    - **APP_DESCRIPTION="A Flutter template..."** This will be the description used by desktop entries for **Linux and macOS**.
+
+    - **APP_TERMINAL="flutter-template"** This will be the command that people who install your app via the installer.sh on **Linux and macOS** will be able to use to start your app from the terminal.
+
+    Windows specific
+    - **APP_PUBLISHER="euhfs"** This will be used by the Inno Setup installer and app metadata on Windows.
+
+    - **APP_URL="https://github.com/euhfs/flutter_template"** This is the website or GitHub repository that people can visit for more information.
+
+    - **APP_ID="{{5193F39C-8C38-41CF-93C2-07F401FB0530}}"** This will be the unique ID for your app (like application ID on android). Check script on how to get another ID using Inno Setup.
+
+    - For Windows you also need to make sure your Inno Setup **path** is correct.
+
+    Linux specific
+    - For Linux you also need to make sure your appimagetool **path** is correct.
+
+4. I still REALLY recommend to read through the start of the build script to understand correctly and make sure everything is set up right.
+
+5. This script will check if you are on Windows/Linux/macOS and adjust available build platforms.
+    - **Linux:** `Linux, Android, Web`
+
+    - **Windows:** `Windows, Android, Web`
+
+    - **macOS:** `macOS, iOS, Android, Web`
+
+## Manual release
+
+
+## Publishing
+After you ran the build script the release outputs based on your OS will be located by default in `Documents/flutter/release`. There you will find your project's name with folder like Android, Web etc. This section will only include instructions if you used the script, not if you did manually.
+
+1. Android <br>
+    - Find the `android` folder inside `Documents/flutter/release/yourproject/android`, inside there you will have:
+        * An universal apk which can be run on any android device but bigger in size.
+        
+        * An arm64.apk which will run on most modern android devices, smaller in size.
+
+        * An armeabi-v7a.apk which will run on older android devices, smaller in size.
+
+        * x86-64.apk which will run on android emulators, smaller in size.
+
+        * .aab which will mostly be used by google play or installed on devices via bundletool.
+
+2. Windows <br>
+    - Find the `windows` folder inside `Documents/flutter/release/yourproject/windows`, inside there you will have:
+        * Only an exe named after your project, which you can share to anyone that has a Windows machine and will be able to install/uninstall and use your app easily.
+
+3. Linux <br>
+    - Find the `linux` folder inside `Documents/flutter/release/yourproject/linux`, inside there you will have:
+        * An .AppImage which is the main app executable.
+
+        * An .png which is used for the app icon in desktop entries.
+
+        * An install.sh script which users can run to install the app in their system and create an desktop entry + run by terminal.
+
+        * An uninstaller.sh script which users can run to uninstall the app from their system.
+
+4. Web <br>
+    - Find the `web` folder inside `Documents/flutter/release/yourproject/web`, inside there you will have the index.html and everything needed to either make it an entire app or integrate into an website. I recommend watching an tutorial on how to do that.

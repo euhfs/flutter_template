@@ -8,7 +8,7 @@
 
 # Supported OS:
 #   - Linux
-#   - Windows (via MinGW)
+#   - Windows (via MinGW which is Git Bash App)
 #   - macOS (untested, experimental)
 
 
