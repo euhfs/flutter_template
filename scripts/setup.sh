@@ -229,13 +229,13 @@ update_package_name() {
 replace_in_file "com.example.fluttertemplate" "$package_name" "$FINAL_LOCATION/android/app/build.gradle.kts"
 
 # change package name in MainActivity.kt before changing folder name based on package name
-replace_in_file "com.example.fluttertemplate" "$package_name" "$FINAL_LOCATION/android/app/src/main/kotlin/com/example/flutter_template/MainActivity.kt"
+replace_in_file "com.example.fluttertemplate" "$package_name" "$FINAL_LOCATION/android/app/src/main/kotlin/com/example/fluttertemplate/MainActivity.kt"
 
 
 # Split package name to rename the folders inside kotlin as needed
 IFS='.' read -r -a package_parts <<< "$package_name"
 
-old_dir="$FINAL_LOCATION/android/app/src/main/kotlin/com/example/flutter_template"
+old_dir="$FINAL_LOCATION/android/app/src/main/kotlin/com/example/fluttertemplate"
 new_dir="$FINAL_LOCATION/android/app/src/main/kotlin"
 
 for part in "${package_parts[@]}"; do

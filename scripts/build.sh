@@ -105,6 +105,7 @@ LINUX_BUILD_DIR="$HOME/Documents/flutter/build/$PROJECT_NAME" # This will be whe
 # Don't need to modify these since they are project wise.
 BUILD_DIR="$PWD/build"
 APKBUILD_DIR="$BUILD_DIR/app/outputs/flutter-apk"
+AABBUILD_DIR="$BUILD_DIR/app/outputs/bundle/release"
 LINUXBUILD_DIR="$BUILD_DIR/linux/x64/release/bundle"
 WEBBUILD_DIR="$BUILD_DIR/web"
 MACOSBUILD_DIR="$BUILD_DIR/macos/Build/Products/Release"
@@ -231,7 +232,7 @@ build_android() {
     copy_file "$APKBUILD_DIR/app-arm64-v8a-release.apk" "$OUTPUT_DIR/android/${PROJECT_NAME}_arm64.apk"
     copy_file "$APKBUILD_DIR/app-x86_64-release.apk" "$OUTPUT_DIR/android/${PROJECT_NAME}_x86-64.apk"
     copy_file "$APKBUILD_DIR/app-release.apk" "$OUTPUT_DIR/android/${PROJECT_NAME}_universal.apk"
-    copy_file "$APKBUILD_DIR/app-release.aab" "$OUTPUT_DIR/android/${PROJECT_NAME}.aab"
+    copy_file "$AABBUILD_DIR/app-release.aab" "$OUTPUT_DIR/android/${PROJECT_NAME}.aab"
 
     mkdir -p "$RELEASE_DIR/android/"
     cp -r "$OUTPUT_DIR/android/"* "$RELEASE_DIR/android/"
