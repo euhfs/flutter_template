@@ -57,7 +57,7 @@
 #        Windows: Inno Setup
 #        macOS: Xcode
 
-# To download appimagetool: https://github.com/AppImage/appimagetool/releases/tag/continuous and get appimagetool-x86_64.AppImage
+# To download appimagetool: https://github.com/AppImage/appimagetool/releases/tag/continuous and get appimagetool-x86_64.AppImage  
 # To download Inno Setup: https://jrsoftware.org/isdl.php#stable
 # To download Xcode: https://apps.apple.com/us/app/xcode/id497799835?mt=12
 
@@ -191,6 +191,7 @@ echo "macos ios android web all"
 # These are the command that will be used to build the flutter app in your project
 BUILD_APK="flutter build apk --release --split-per-abi"
 BUILDUNI_APK="flutter build apk --release"
+BUILD_AAB="flutter build aab --release"
 BUILD_LINUX="flutter build linux --release"
 BUILD_WEB="flutter build web --wasm --release"
 BUILD_WINDOWS="flutter build windows --release"
@@ -224,11 +225,13 @@ copy_file() {
 build_android() {
     $BUILD_APK
     $BUILDUNI_APK
+    $BUILD_AAB
 
     copy_file "$APKBUILD_DIR/app-armeabi-v7a-release.apk" "$OUTPUT_DIR/android/${PROJECT_NAME}_armeabi-v7a.apk"
     copy_file "$APKBUILD_DIR/app-arm64-v8a-release.apk" "$OUTPUT_DIR/android/${PROJECT_NAME}_arm64.apk"
     copy_file "$APKBUILD_DIR/app-x86_64-release.apk" "$OUTPUT_DIR/android/${PROJECT_NAME}_x86-64.apk"
     copy_file "$APKBUILD_DIR/app-release.apk" "$OUTPUT_DIR/android/${PROJECT_NAME}_universal.apk"
+    copy_file "$APKBUILD_DIR/app-release.aab" "$OUTPUT_DIR/android/${PROJECT_NAME}.aab"
 
     mkdir -p "$RELEASE_DIR/android/"
     cp -r "$OUTPUT_DIR/android/"* "$RELEASE_DIR/android/"

@@ -34,7 +34,7 @@ android {
         applicationId = "com.example.fluttertemplate"
 
         // Change to your desired values. Recommended: 
-        minSdk = 21
+        minSdk = flutter.minSdkVersion
         targetSdk = 35
 
         // Leave these values like this, to change version change it in pubspec.yaml which changed the version globally for each platform
