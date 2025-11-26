@@ -348,7 +348,7 @@ cat > "\$DESKTOP_FILE" <<DESKTOP_EOF
 [Desktop Entry]
 Type=Application
 Name=\$APP_NAME
-Exec="\$APP_DIR/\$APPIMAGE_NAME"
+Exec=\$APP_DIR/\$APPIMAGE_NAME
 Icon=\$ICON_FILE
 Comment=\$APP_DESCRIPTION
 Categories=Utility;
