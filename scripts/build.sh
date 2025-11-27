@@ -426,7 +426,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "${WIN_OUTPUT_DIR}\\windows\\${PROJECT_NAME}.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "${WIN_OUTPUT_DIR}\\windows\\flutter_windows.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "${WIN_OUTPUT_DIR}\\windows\\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "${WIN_OUTPUT_DIR}\\windows\\data\\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
