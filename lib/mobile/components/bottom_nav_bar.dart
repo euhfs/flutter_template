@@ -15,8 +15,8 @@ class CustomBottomNavBar extends StatelessWidget {
         selectedIconTheme: IconThemeData(color: colors?.primary, size: 28),
         showUnselectedLabels: false,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.list_alt_rounded), label: 'Tasks'),
-          BottomNavigationBarItem(icon: Icon(Icons.notes), label: 'Notes'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
         currentIndex: selectedIndex,
         onTap: onTabChange,

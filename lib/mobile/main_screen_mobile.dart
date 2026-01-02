@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tasks/mobile/pages/home_page.dart';
+import 'package:tasks/mobile/pages/settings_page.dart';
 import 'components/app_bar.dart';
 import 'components/bottom_nav_bar.dart';
-import 'pages/notes_page.dart';
-import 'pages/tasks_page.dart';
-import 'widgets/drawer.dart';
 
 class MainScreenMobile extends StatefulWidget {
   const MainScreenMobile({super.key});
@@ -17,7 +16,7 @@ class _MainScreenMobileState extends State<MainScreenMobile> {
   int _selectedIndex = 0;
 
   // List of pages, add more only if you want that page to have a bottom navigation bar.
-  final List<Widget> _pages = const [TasksPage(), NotesPage()];
+  final List<Widget> _pages = const [HomePage(), SettingsPage()];
 
   // These are the titles of those pages if you add more pages make sure to add more titles as well.
   final List<String> _titles = const ['Tasks', 'Notes'];
@@ -39,7 +38,6 @@ class _MainScreenMobileState extends State<MainScreenMobile> {
     return Scaffold(
       appBar: CustomAppBar(title: _titles[_selectedIndex]),
       body: PageView(controller: _pageController, onPageChanged: _onPageChanged, children: _pages),
-      drawer: CustomDrawer(),
       bottomNavigationBar: CustomBottomNavBar(onTabChange: _onNavBarTap, selectedIndex: _selectedIndex),
     );
   }

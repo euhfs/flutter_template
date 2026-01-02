@@ -7,12 +7,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      scrolledUnderElevation: 0.0,
-      title: Text(title),
-      leading: IconButton(onPressed: () => Scaffold.of(context).openDrawer(), icon: Icon(Icons.menu_rounded, size: 32)),
-      actions: [],
-    );
+    return AppBar(scrolledUnderElevation: 0.0, title: Text(title), actions: []);
   }
 
   @override
