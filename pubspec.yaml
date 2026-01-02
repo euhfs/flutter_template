@@ -1,4 +1,4 @@
-name: tasks   # TODO: Change this to your project name
+name: flutter_template   # TODO: Change this to your project name
 description: "A Flutter Template" # TODO: Change this to your project description
 publish_to: 'none'
 version: 1.0.0+1
@@ -50,12 +50,12 @@ icons_launcher:
 # Make sure to edit as needed (for splash screen)
 flutter_native_splash:
   image: assets/app-icon/app_icon.png  # Path to splash image (general)
-  color: "#ff9442"                     # Splash screen background color
-  icon_background_color: "#ff9442"    # Background color behind the splash icon
+  color: "#FFFFFF"                     # Splash screen background color
+  icon_background_color: "#FFFFFF"    # Background color behind the splash icon
   android_12:
     image: assets/app-icon/app_icon.png   # Path to splash image for android
-    color: "#ff9442"                   # Splash color for Android 12+
-    icon_background_color: "#ff9442"
+    color: "#FFFFFF"                   # Splash color for Android 12+
+    icon_background_color: "#FFFFFF"
   ios: true                           # Enable splash screen on iOS
   web: true                           # Enable splash screen on web
 

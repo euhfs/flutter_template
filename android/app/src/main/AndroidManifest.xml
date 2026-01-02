@@ -1,12 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 🔐 PERMISSIONS GO HERE (make sure it's not a comment) -->
-    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
-
-    <!-- TODO: change android:label from flutter-template to your app's name e.g. "Password Generator" 
-    This is what is shown on the device's home screen and app settings. -->
     <application
-        android:label="Tasks"
+        android:label="flutter_template"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

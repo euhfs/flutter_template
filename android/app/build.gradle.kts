@@ -16,7 +16,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     // TODO: change this to your application's package name
-    namespace = "com.euhfs.tasks"
+    namespace = "com.euhfs.flutter_template"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -31,7 +31,7 @@ android {
 
     defaultConfig {
         // TODO: change this to your application's package name
-        applicationId = "com.euhfs.tasks"
+        applicationId = "com.euhfs.flutter_template"
 
         // Change to your desired values. Recommended: 
         minSdk = flutter.minSdkVersion

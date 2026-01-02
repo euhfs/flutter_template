@@ -4,7 +4,7 @@
 -keep class io.flutter.embedding.** { *; }
 
 # Keep your own app code
--keep class com.euhfs.tasks.** { *; }
+-keep class com.euhfs.flutter_template.** { *; }
 
 # Keep annotation data
 -keepattributes *Annotation*

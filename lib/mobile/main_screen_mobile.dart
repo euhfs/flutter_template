@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tasks/mobile/pages/home_page.dart';
-import 'package:tasks/mobile/pages/settings_page.dart';
 import 'components/app_bar.dart';
 import 'components/bottom_nav_bar.dart';
+import 'pages/home_page.dart';
+import 'pages/settings_page.dart';
 
 class MainScreenMobile extends StatefulWidget {
   const MainScreenMobile({super.key});
@@ -15,20 +15,19 @@ class _MainScreenMobileState extends State<MainScreenMobile> {
   final PageController _pageController = PageController();
   int _selectedIndex = 0;
 
-  // List of pages, add more only if you want that page to have a bottom navigation bar.
+  // List of pages
   final List<Widget> _pages = const [HomePage(), SettingsPage()];
 
-  // These are the titles of those pages if you add more pages make sure to add more titles as well.
-  final List<String> _titles = const ['Tasks', 'Notes'];
+  // Title of pages
+  final List<String> _titles = const ['Home', 'Settings'];
 
-  // This updates the index of the current page you are in.
+  // Update index
   void _onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  // This handles when you select an item in your navigation bar and animation
   void _onNavBarTap(int index) {
     _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }

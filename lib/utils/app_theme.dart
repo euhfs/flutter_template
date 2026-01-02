@@ -3,6 +3,7 @@ import 'colors.dart';
 import 'custom_colors.dart';
 
 class AppTheme {
+  // Light theme
   static ThemeData get light {
     return ThemeData(
       // Brightness
@@ -60,6 +61,7 @@ class AppTheme {
     );
   }
 
+  // Dark theme
   static ThemeData get dark {
     return ThemeData(
       // Brightness
