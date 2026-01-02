@@ -9,9 +9,9 @@ class AppColors {
   static const lightAppBar = Color(0xFFFFFFFF);
 
   // DARK THEME COLORS
-  static const darkBackground = Color(0xFF000000);
+  static const darkBackground = Color.fromARGB(255, 29, 12, 0);
   static const darkPrimaryText = Color(0xFFD4D4D4);
   static const darkSecondaryText = Color(0xFFAAAAAA);
   static const darkIconColor = Color(0xFFD4D4D4);
-  static const darkAppBar = Color(0xFF000000);
+  static const darkAppBar = Color.fromARGB(255, 29, 12, 0);
 }

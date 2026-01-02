@@ -1,4 +1,4 @@
-package com.example.fluttertemplate
+package com.euhfs.tasks
 
 import io.flutter.embedding.android.FlutterActivity
 

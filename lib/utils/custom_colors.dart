@@ -105,8 +105,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     accent: Color(0xFF00BCD4),
     surface: Color.fromARGB(255, 231, 231, 231),
     border: Color.fromARGB(255, 187, 187, 187),
-    primary: Color.fromARGB(255, 86, 131, 255),
-    secondary: Color.fromARGB(255, 110, 120, 255),
+    primary: Color.fromARGB(255, 255, 111, 15),
+    secondary: Color.fromARGB(255, 235, 255, 56),
     icon: Color(0xFFD4D4D4),
   );
 
@@ -117,11 +117,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
     error: Color(0xFFEF5350),
     info: Color.fromARGB(255, 112, 112, 112),
     accent: Color(0xFF26C6DA),
-    surface: Color.fromARGB(255, 34, 34, 34),
+    surface: Color.fromARGB(255, 66, 28, 0),
     border: Color.fromARGB(255, 78, 78, 78),
-    primary: Color.fromARGB(255, 86, 131, 255),
-    secondary: Color.fromARGB(255, 110, 120, 255),
-    icon: Color(0xFFFFFFFF),
+    primary: Color.fromARGB(255, 255, 111, 15),
+    secondary: Color.fromARGB(255, 235, 255, 56),
+    icon: Color.fromARGB(255, 170, 170, 170),
   );
 
   // Allows copying an instance with optional overrides for specific colors
